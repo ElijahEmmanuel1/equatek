@@ -3,40 +3,40 @@ import './App.css'
 
 const pathways = [
   {
-    id: 'troisieme',
-    label: 'Troisième',
-    badge: 'Brevet',
-    objective: 'Construire des bases solides et des automatismes propres.',
-    themes: ['Fractions et puissances', 'Géométrie et théorème de Thalès', 'Chimie des solutions', 'Électricité simple'],
-    targets: ['Réussir le Brevet', 'Passer en Seconde avec confiance'],
-    weeklyPlan: ['2 cours courts', '3 exercices guidés', '1 devoir bilan'],
+    id: 'term-start',
+    label: 'Terminale - Mise en route',
+    badge: 'Trimestre 1',
+    objective: 'Installer les bases de Terminale en maths et physique-chimie sans lacunes.',
+    themes: ['Dérivation et convexité', 'Suites et raisonnement', 'Cinématique et dynamique', 'Réactions acide-base'],
+    targets: ['Démarrer solide', 'Être prêt pour le premier bac blanc'],
+    weeklyPlan: ['2 cours ciblés', '2 séries d exercices', '1 mini devoir chronométré'],
   },
   {
-    id: 'lycee',
-    label: 'Lycée',
-    badge: 'Bac',
-    objective: 'Monter en abstraction et maîtriser les chapitres clés du Bac.',
-    themes: ['Fonctions et dérivées', 'Mécanique et énergie', 'Acide-base et redox', 'Probabilités conditionnelles'],
-    targets: ['Performance au Bac', 'Préparation à Parcoursup scientifique'],
-    weeklyPlan: ['3 cours ciblés', '2 sujets type Bac', '1 correction active'],
+    id: 'term-mid',
+    label: 'Terminale - Consolidation',
+    badge: 'Trimestre 2',
+    objective: 'Renforcer les méthodes Bac et stabiliser la rédaction scientifique.',
+    themes: ['Primitives et équations diff', 'Probabilités conditionnelles', 'Énergie et conversions', 'Oxydoréduction et cinétique'],
+    targets: ['Élever la moyenne', 'Rendre des copies propres et complètes'],
+    weeklyPlan: ['3 blocs de travail', '2 sujets type Bac', '1 séance de correction active'],
   },
   {
-    id: 'sup',
-    label: 'Post-bac scientifique',
-    badge: 'L1/L2',
-    objective: 'Structurer les méthodes universitaires avant la spécialisation.',
-    themes: ['Algèbre linéaire', 'Intégration et EDO', 'Thermodynamique', 'Cinétique chimique'],
-    targets: ['Valider les UE fondamentales', 'Préparer les passerelles vers concours'],
-    weeklyPlan: ['2 fiches méthode', '2 TD chronométrés', '1 oral blanc'],
+    id: 'term-bac',
+    label: 'Terminale - Sprint Bac',
+    badge: 'Révisions finales',
+    objective: 'Passer en mode performance sur annales, timing et stratégies de sujets.',
+    themes: ['Annales maths spécialité', 'Annales physique-chimie', 'Sujets transversaux', 'Pièges fréquents'],
+    targets: ['Maximiser la note au Bac', 'Arriver serein le jour J'],
+    weeklyPlan: ['2 sujets complets', '1 oral de 20 min', '1 bilan des erreurs critiques'],
   },
   {
-    id: 'cpge',
-    label: 'CPGE MPSI/MP',
-    badge: 'Concours',
-    objective: 'Rédiger proprement, aller vite, tenir sous pression concours.',
-    themes: ['Analyse avancée', 'Mécanique et électromagnétisme', 'Chimie de concours', 'Exercices oraux de colles'],
-    targets: ['Mines, Centrale, CCP', 'Oral maîtrisé et stratégie de sujet'],
-    weeklyPlan: ['4 blocs intensifs', '2 annales complètes', '1 simulation de colle'],
+    id: 'term-bridge',
+    label: 'Terminale - Passerelle CPGE',
+    badge: 'Après Bac',
+    objective: 'Préparer la transition vers MPSI/MP avec de bons automatismes scientifiques.',
+    themes: ['Rigueur de rédaction', 'Calcul algébrique rapide', 'Modélisation physique', 'Organisation de travail en autonomie'],
+    targets: ['Entrée en CPGE plus fluide', 'Moins de choc de niveau en septembre'],
+    weeklyPlan: ['2 fiches passerelle', '1 problème guidé', '1 oral blanc type colle'],
   },
 ] as const
 
@@ -44,44 +44,44 @@ const subjectPillars = [
   {
     name: 'Maths',
     tone: 'tone-maths',
-    items: ['Cours progressif par niveau', 'Exercices gradués', 'Méthodes de rédaction'],
+    items: ['Spé maths Terminale', 'Exercices type Bac', 'Méthodes de rédaction notées'],
     progress: 82,
   },
   {
     name: 'Physique',
     tone: 'tone-physics',
-    items: ['Modélisation guidée', 'TP expliqués', 'Sujets type concours'],
+    items: ['Physique Terminale', 'Modélisation guidée', 'Sujets Bac chronométrés'],
     progress: 76,
   },
   {
     name: 'Chimie',
     tone: 'tone-chemistry',
-    items: ['Mécanismes et bilans', 'Fiches flash', 'Annales corrigées'],
+    items: ['Chimie Terminale', 'Bilans réactionnels', 'Annales corrigées et commentées'],
     progress: 71,
   },
 ] as const
 
 const contestTools = [
   {
-    title: 'Annales intelligentes',
-    description: 'Filtre par niveau, thème et difficulté pour travailler exactement ce dont tu as besoin.',
+    title: 'Mode Bac intelligent',
+    description: 'Annales Terminale filtrées par chapitre, niveau de difficulté et durée.',
   },
   {
     title: 'Mode chrono',
-    description: 'Simulation d’épreuve avec timer, barème et correction structurée.',
+    description: 'Simulation d épreuve Bac avec timer, barème, et correction structurée.',
   },
   {
-    title: 'Prépa orale',
-    description: 'Questions de colle, relances, et grille d’évaluation de la réponse.',
+    title: 'Grand oral scientifique',
+    description: 'Sujets, relances, grille d évaluation et entraînement de prise de parole.',
   },
   {
     title: 'Tableau de progression',
-    description: 'Suivi des chapitres, lacunes critiques et recommandations de séances.',
+    description: 'Suivi des chapitres Terminale, lacunes critiques et plan de révision adaptatif.',
   },
 ] as const
 
 function App() {
-  const [activePathId, setActivePathId] = useState<(typeof pathways)[number]['id']>('troisieme')
+  const [activePathId, setActivePathId] = useState<(typeof pathways)[number]['id']>('term-start')
   const activePath = pathways.find((path) => path.id === activePathId) ?? pathways[0]
 
   return (
@@ -102,10 +102,10 @@ function App() {
         <section className="hero-main">
           <div>
             <p className="eyebrow">Troisième jusqu’en CPGE</p>
-            <h1>Une plateforme unique pour préparer examens et concours scientifiques.</h1>
+            <h1>Mode Terminale activé: réussir le Bac et préparer l entrée en CPGE.</h1>
             <p className="hero-text">
-              Tu voulais une vraie progression continue: on couvre les bases collège, la montée en niveau lycée,
-              puis la performance concours en MPSI/MP avec des méthodes adaptées à chaque étape.
+              On se concentre maintenant sur Terminale: progression trimestrielle, entraînement Bac, et
+              passerelle vers le supérieur pour arriver en prépa avec plus de confiance.
             </p>
             <div className="hero-actions">
               <a className="button button-strong" href="#pathways">
@@ -119,11 +119,11 @@ function App() {
 
           <aside className="hero-panel">
             <p>Objectif actuel</p>
-            <h2>Performance régulière, pas révision panique.</h2>
+            <h2>Gagner des points chaque semaine, sans surcharge inutile.</h2>
             <ul>
-              <li>Plan de travail hebdomadaire auto-adapté</li>
-              <li>Exercices corrigés et commentés</li>
-              <li>Suivi de progression par compétence</li>
+              <li>Plan Terminale hebdomadaire clair</li>
+              <li>Exercices Bac corrigés et expliqués</li>
+              <li>Suivi de progression par chapitre</li>
             </ul>
           </aside>
         </section>
@@ -132,7 +132,7 @@ function App() {
       <section className="section" id="pathways">
         <div className="section-head">
           <p className="eyebrow">Parcours pédagogique</p>
-          <h2>Ton chemin du Brevet aux concours CPGE.</h2>
+          <h2>Ton plan Terminale du T1 jusqu au post-Bac.</h2>
         </div>
 
         <div className="pathway-tabs">
@@ -188,7 +188,7 @@ function App() {
       <section className="section" id="subjects">
         <div className="section-head">
           <p className="eyebrow">Matières</p>
-          <h2>Maths, Physique, Chimie: mêmes standards, niveaux différents.</h2>
+          <h2>Maths, Physique, Chimie en version Terminale performante.</h2>
         </div>
 
         <div className="pillar-grid">
@@ -215,7 +215,7 @@ function App() {
       <section className="section" id="concours">
         <div className="section-head">
           <p className="eyebrow">Préparation concours</p>
-          <h2>Une UX faite pour performer sous contrainte.</h2>
+          <h2>Préparer le Bac maintenant, préparer les concours ensuite.</h2>
         </div>
 
         <div className="tool-grid">
