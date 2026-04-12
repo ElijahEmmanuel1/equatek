@@ -13,6 +13,8 @@ export interface QuizQuestion {
 export interface ResourceItem {
   label: string
   locked?: boolean
+  comingSoon?: boolean   // true = pas encore disponible, affiché "À venir"
+  url?: string           // lien externe si disponible
 }
 
 export interface ChapterResources {

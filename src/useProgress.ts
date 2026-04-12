@@ -45,6 +45,18 @@ export function useProgress() {
     }))
   }
 
+  /** Remet le quiz d'un chapitre à zéro pour permettre de le refaire */
+  const resetQuiz = (chapterId: string) => {
+    setProgress((prev) => ({
+      ...prev,
+      [chapterId]: {
+        ...getChapterProgress(prev, chapterId),
+        quizCompleted: false,
+        quizScore: undefined,
+      },
+    }))
+  }
+
   const markChronoCompleted = (chapterId: string) => {
     setProgress((prev) => ({
       ...prev,
@@ -68,6 +80,7 @@ export function useProgress() {
     markCoursRead,
     markExercicesDone,
     setQuizResult,
+    resetQuiz,
     markChronoCompleted,
     getChapterCompletion,
   }

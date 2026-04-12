@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { Chapter, ResourceKey } from '../types'
 import type { ChapterProgress } from '../types'
 import { QuizView } from './QuizView'
@@ -12,6 +13,7 @@ interface ChapterPageProps {
   onMarkCoursRead: () => void
   onMarkExercicesDone: () => void
   onQuizComplete: (score: number) => void
+  onResetQuiz: () => void
   onChronoComplete: () => void
   onBack: () => void
 }
@@ -19,14 +21,19 @@ interface ChapterPageProps {
 type SubPage = 'overview' | 'quiz' | 'chrono' | 'subject'
 
 const RESOURCE_CONFIGS: { key: ResourceKey; label: string; icon: string; color: string }[] = [
-  { key: 'cours', label: 'Cours', icon: '📖', color: '#7c9eff' },
-  { key: 'exercices', label: 'Exercices', icon: '✏️', color: '#ffd190' },
-  { key: 'quiz', label: 'Quiz', icon: '🧠', color: '#c084fc' },
-  { key: 'bac', label: 'Sujets de Bac', icon: '🎯', color: '#5cffb4' },
-  { key: 'equatek', label: 'Sujets Equatek', icon: '⚡', color: '#ff9f7a' },
+  { key: 'cours',     label: 'Cours',          icon: '📖', color: '#7c9eff' },
+  { key: 'exercices', label: 'Exercices',       icon: '✏️', color: '#ffd190' },
+  { key: 'quiz',      label: 'Quiz',            icon: '🧠', color: '#c084fc' },
+  { key: 'bac',       label: 'Sujets Bac',      icon: '🎯', color: '#5cffb4' },
+  { key: 'equatek',   label: 'Sujets Equatek',  icon: '⚡', color: '#ff9f7a' },
 ]
 
-import { useState } from 'react'
+const SUBNAV_LABELS: Record<SubPage, string> = {
+  overview: '📚 Contenu',
+  quiz:     '🧠 Quiz',
+  chrono:   '⏱️ Mode Chrono',
+  subject:  '📄 Sujets Equatek',
+}
 
 export function ChapterPage({
   chapter,
@@ -35,11 +42,29 @@ export function ChapterPage({
   onMarkCoursRead,
   onMarkExercicesDone,
   onQuizComplete,
+  onResetQuiz,
   onChronoComplete,
   onBack,
 }: ChapterPageProps) {
   const [subPage, setSubPage] = useState<SubPage>('overview')
   const [activeSubjectKey, setActiveSubjectKey] = useState<string>('A1')
+  /* redoingQuiz contrôle l'affichage du quiz après un "Refaire" */
+  const [redoingQuiz, setRedoingQuiz] = useState(false)
+
+  const openSubject = (key: string) => {
+    setActiveSubjectKey(key)
+    setSubPage('subject')
+  }
+
+  const handleQuizComplete = (score: number) => {
+    onQuizComplete(score)
+    setRedoingQuiz(false)
+  }
+
+  const handleRedoQuiz = () => {
+    onResetQuiz()      // remet quizCompleted = false dans le store
+    setRedoingQuiz(true)
+  }
 
   return (
     <div className="chapter-page">
@@ -47,6 +72,7 @@ export function ChapterPage({
         ← Retour aux chapitres
       </button>
 
+      {/* En-tête chapitre */}
       <header className="chapter-page-header">
         <div>
           <p className="eyebrow">{chapter.period}</p>
@@ -54,67 +80,95 @@ export function ChapterPage({
           <p className="chapter-page-goal">{chapter.goal}</p>
         </div>
         <div className="chapter-page-completion">
-          <div className="completion-bar-wrap">
+          <div
+            className="completion-bar-wrap"
+            role="progressbar"
+            aria-valuenow={completion}
+            aria-valuemin={0}
+            aria-valuemax={100}
+          >
             <div className="completion-bar-fill" style={{ width: `${completion}%` }} />
           </div>
           <span className="completion-label">{completion}% complété</span>
         </div>
       </header>
 
-      <div className="chapter-subnav">
-        {(['overview', 'quiz', 'chrono', 'subject'] as SubPage[]).map((p) => (
+      {/* Sous-navigation */}
+      <div className="chapter-subnav" role="tablist">
+        {(Object.keys(SUBNAV_LABELS) as SubPage[]).map((p) => (
           <button
             key={p}
             type="button"
+            role="tab"
+            aria-selected={subPage === p}
             onClick={() => setSubPage(p)}
             className={`chapter-subnav-btn ${subPage === p ? 'active' : ''}`}
           >
-            {p === 'overview' ? '📚 Contenu' :
-             p === 'quiz' ? '🧠 Quiz' :
-             p === 'chrono' ? '⏱️ Mode Chrono' :
-             '📄 Sujets Equatek'}
+            {SUBNAV_LABELS[p]}
           </button>
         ))}
       </div>
 
+      {/* ── Vue : Contenu / ressources ──────────────────────── */}
       {subPage === 'overview' && (
         <div className="chapter-resources">
           {RESOURCE_CONFIGS.map((rc) => {
             const items = chapter.resources[rc.key]
-            const isCours = rc.key === 'cours'
-            const isExo = rc.key === 'exercices'
-            const isDone = (isCours && progress?.coursRead) || (isExo && progress?.exercicesDone)
+            const isCours    = rc.key === 'cours'
+            const isExo      = rc.key === 'exercices'
+            const isEquatek  = rc.key === 'equatek'
+            /* La carte est "à venir" si TOUS ses items sont comingSoon */
+            const allSoon    = items.every((i) => i.comingSoon)
+            const isDone     = (isCours && progress?.coursRead) || (isExo && progress?.exercicesDone)
+            /* Affiche le bouton "Marquer comme fait" seulement si contenu réel */
+            const canMark    = (isCours || isExo) && !allSoon
 
             return (
-              <article key={rc.key} className="res-card">
+              <article
+                key={rc.key}
+                className={`res-card${allSoon ? ' res-card--soon' : ''}`}
+              >
                 <div className="res-card-head">
                   <span className="res-icon" style={{ background: `${rc.color}18`, color: rc.color }}>
                     {rc.icon}
                   </span>
                   <div>
                     <h4 className="res-card-title">{rc.label}</h4>
-                    <span className="res-count">{items.length} ressources</span>
+                    <span className="res-count">{items.length} ressource{items.length > 1 ? 's' : ''}</span>
                   </div>
-                  {isDone && <span className="res-done-badge">✓ Fait</span>}
+                  {isDone && !allSoon && <span className="res-done-badge">✓ Fait</span>}
+                  {allSoon && <span className="res-soon-badge">Bientôt</span>}
                 </div>
+
                 <ul className="res-list">
                   {items.map((item) => {
-                    const isEquatek = rc.key === 'equatek'
-                    const subjectKey = isEquatek ? item.label.replace('Sujet Equatek ', '') : null
-                    const hasSubject = subjectKey !== null && equatekSubjects[subjectKey] !== undefined
+                    /* Pour les sujets Equatek, on détecte la clé (A1, A2…) */
+                    const subKey   = isEquatek ? item.label.replace('Sujet Equatek ', '') : null
+                    const hasDoc   = !item.comingSoon && subKey !== null && equatekSubjects[subKey] !== undefined
+                    const isSoon   = item.comingSoon || (isEquatek && subKey !== null && !hasDoc)
+
                     return (
-                      <li key={item.label} className={`res-item ${hasSubject ? 'res-item--link' : ''}`}
-                        onClick={hasSubject ? () => { setActiveSubjectKey(subjectKey!); setSubPage('subject') } : undefined}
-                        style={hasSubject ? { cursor: 'pointer' } : {}}
+                      <li
+                        key={item.label}
+                        className={[
+                          'res-item',
+                          hasDoc ? 'res-item--link' : '',
+                          isSoon ? 'res-item--soon' : '',
+                        ].join(' ').trim()}
+                        onClick={hasDoc ? () => openSubject(subKey!) : undefined}
+                        style={hasDoc ? { cursor: 'pointer' } : {}}
                       >
                         <span className="res-bullet" style={{ color: rc.color }}>›</span>
-                        {item.label}
-                        {hasSubject && <span className="res-open-badge">Ouvrir →</span>}
+                        <span className="res-label-text">{item.label}</span>
+                        {hasDoc && <span className="res-open-badge">Ouvrir →</span>}
+                        {isSoon && <span className="res-soon-inline">À venir</span>}
                       </li>
                     )
                   })}
                 </ul>
-                {(isCours || isExo) && !isDone && (
+
+                {/* Bouton "Marquer comme fait" uniquement si contenu disponible */}
+                {canMark && !isDone && (
                   <button
                     className="res-mark-btn"
                     type="button"
@@ -123,38 +177,68 @@ export function ChapterPage({
                     Marquer comme fait ✓
                   </button>
                 )}
+
+                {/* Message informatif pour cartes "à venir" */}
+                {allSoon && (
+                  <p className="res-soon-msg">
+                    {isEquatek
+                      ? 'Ces sujets seront publiés prochainement.'
+                      : 'Ces ressources seront disponibles dans quelques jours.'}
+                  </p>
+                )}
               </article>
             )
           })}
         </div>
       )}
 
+      {/* ── Vue : Quiz ────────────────────────────────────────── */}
       {subPage === 'quiz' && (
         <div className="subpage-wrap">
-          {progress?.quizCompleted ? (
-            <div className="already-done">
-              <p className="already-done-score">
-                Tu as obtenu <strong style={{ color: '#ffd190' }}>{progress.quizScore}%</strong> à ce quiz.
+          {progress?.quizCompleted && !redoingQuiz ? (
+            /* Quiz déjà complété → écran de résultat propre */
+            <div className="quiz-already-done">
+              <div className="quiz-already-icon">
+                {(progress.quizScore ?? 0) >= 70 ? '🏆' : '💪'}
+              </div>
+              <h3>Quiz déjà réalisé</h3>
+              <p className="quiz-already-score">
+                Tu as obtenu{' '}
+                <strong style={{ color: (progress.quizScore ?? 0) >= 70 ? '#5cffb4' : '#ffd190' }}>
+                  {progress.quizScore ?? 0}%
+                </strong>{' '}
+                à ce quiz.
               </p>
-              <button className="button button-soft" onClick={() => {
-                onQuizComplete(0) // reset then redo
-              }} type="button">Refaire le quiz</button>
-              <QuizView
-                questions={chapter.quizQuestions}
-                chapterId={chapter.id}
-                onComplete={onQuizComplete}
-              />
+              <p className="quiz-already-hint">
+                {(progress.quizScore ?? 0) >= 70
+                  ? 'Excellent résultat ! Tu peux passer au mode Chrono.'
+                  : 'Relis le cours sur les points manqués, puis retente le quiz.'}
+              </p>
+              <div className="quiz-already-actions">
+                <button className="button button-strong" onClick={handleRedoQuiz} type="button">
+                  Refaire le quiz
+                </button>
+                <button
+                  className="button button-soft"
+                  onClick={() => setSubPage('chrono')}
+                  type="button"
+                >
+                  Mode Chrono →
+                </button>
+              </div>
             </div>
           ) : (
+            /* Quiz actif (premier passage ou après reset) */
             <QuizView
               questions={chapter.quizQuestions}
               chapterId={chapter.id}
-              onComplete={onQuizComplete}
+              onComplete={handleQuizComplete}
             />
           )}
         </div>
       )}
 
+      {/* ── Vue : Chrono ─────────────────────────────────────── */}
       {subPage === 'chrono' && (
         <div className="subpage-wrap">
           <ChronoMode
@@ -165,12 +249,24 @@ export function ChapterPage({
         </div>
       )}
 
+      {/* ── Vue : Sujet Equatek ──────────────────────────────── */}
       {subPage === 'subject' && (
         <div className="subpage-wrap">
-          <SubjectViewer
-            subject={equatekSubjects[activeSubjectKey] ?? equatekSubjects['A1']}
-            onClose={() => setSubPage('overview')}
-          />
+          {equatekSubjects[activeSubjectKey] ? (
+            <SubjectViewer
+              subject={equatekSubjects[activeSubjectKey]}
+              onClose={() => setSubPage('overview')}
+            />
+          ) : (
+            /* Sujet demandé inexistant — ne devrait pas arriver */
+            <div className="subject-missing">
+              <span>📄</span>
+              <p>Ce sujet n'est pas encore disponible.</p>
+              <button className="button button-soft" onClick={() => setSubPage('overview')} type="button">
+                ← Retour
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>

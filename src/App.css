@@ -871,3 +871,221 @@
   border-top: 1px solid rgba(255,255,255,0.07); font-size: 0.75rem; color: #6f6fa8;
   flex-wrap: wrap; gap: 8px;
 }
+
+
+/* ─── BANDEAU INSTALLATION PWA ───────────────────────────── */
+.install-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, rgba(124,158,255,0.14), rgba(255,164,83,0.12));
+  border: 1px solid rgba(124,158,255,0.28);
+  border-radius: 16px;
+  flex-wrap: wrap;
+}
+.install-banner-text {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+.install-banner-icon { font-size: 1.6rem; flex-shrink: 0; }
+.install-banner-text strong { display: block; color: #fff6ec; font-size: 0.97rem; }
+.install-banner-text p { margin: 2px 0 0; font-size: 0.83rem; color: #c5bbd8; }
+.install-banner-actions { display: flex; align-items: center; gap: 10px; }
+.install-btn { padding: 0 16px; min-height: 40px; font-size: 0.88rem; }
+.install-dismiss {
+  background: transparent;
+  border: none;
+  color: #7a7395;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background 150ms;
+  line-height: 1;
+}
+.install-dismiss:hover { background: rgba(255,255,255,0.07); color: #c5bbd8; }
+
+
+/* ─── RESSOURCES — ÉTATS "À VENIR" ───────────────────────── */
+.res-card--soon {
+  opacity: 0.82;
+}
+.res-card--soon .res-card-head { opacity: 0.9; }
+
+.res-soon-badge {
+  margin-left: auto;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255,209,144,0.1);
+  color: #ffd190;
+  border: 1px solid rgba(255,209,144,0.25);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.res-item--soon .res-bullet { opacity: 0.4; }
+.res-item--soon .res-label-text { color: #8c849e; }
+
+.res-label-text { flex: 1; }
+
+.res-soon-inline {
+  margin-left: auto;
+  font-size: 0.68rem;
+  color: #8c849e;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.res-soon-msg {
+  font-size: 0.8rem;
+  color: #7a7395;
+  font-style: italic;
+  text-align: center;
+  margin: 0;
+  padding-top: 4px;
+}
+
+
+/* ─── QUIZ — DÉJÀ COMPLÉTÉ ───────────────────────────────── */
+.quiz-already-done {
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 32px 24px;
+  background: rgba(13,20,36,0.7);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+}
+.quiz-already-icon { font-size: 3rem; line-height: 1; }
+.quiz-already-done h3 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.7rem;
+  color: #fff7ed;
+  margin: 0;
+}
+.quiz-already-score { font-size: 1.1rem; color: #d5cee6; margin: 0; }
+.quiz-already-hint { font-size: 0.9rem; color: #a89ec2; max-width: 36ch; line-height: 1.5; margin: 0; }
+.quiz-already-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+
+/* ─── PARCOURS — ÉTAT VIDE (Trimestre 3) ─────────────────── */
+.pathway-empty {
+  margin-top: 16px;
+  padding: 18px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #7a7395;
+  font-size: 0.9rem;
+}
+.pathway-empty span { font-size: 1.2rem; }
+
+
+/* ─── SUJET MANQUANT ─────────────────────────────────────── */
+.subject-missing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  color: #7a7395;
+}
+.subject-missing span { font-size: 2.5rem; }
+.subject-missing p { font-size: 1rem; color: #a89ec2; }
+
+
+/* ─── NAVIGATION MOBILE (bottom bar) ─────────────────────── */
+.bottom-nav {
+  display: none; /* visible uniquement sur mobile */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(8, 13, 26, 0.95);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 8px 16px;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  align-items: center;
+  justify-content: space-around;
+  gap: 8px;
+}
+.bottom-nav-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: transparent;
+  border: none;
+  color: #7a7395;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 12px;
+  transition: all 180ms;
+  cursor: pointer;
+}
+.bottom-nav-btn:hover,
+.bottom-nav-btn.active {
+  color: #ffd190;
+  background: rgba(255,209,144,0.08);
+}
+.bottom-nav-icon { font-size: 1.3rem; line-height: 1; }
+.bottom-nav-progress {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  max-width: 100px;
+  font-size: 0.72rem;
+  color: #ffd190;
+  font-weight: 700;
+}
+.bottom-nav-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+.bottom-nav-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #7c9eff, #ffd190);
+  transition: width 0.6s ease;
+}
+
+@media (max-width: 760px) {
+  .bottom-nav { display: flex; }
+  /* Éviter que le contenu soit caché derrière la bottom nav */
+  .platform { padding-bottom: 80px; }
+  /* Masquer la progression dans la nav principale sur mobile (elle est dans la bottom bar) */
+  .hero-nav-progress { display: none; }
+  /* Masquer les boutons de nav desktop dans la hero nav sur mobile */
+  .hero-nav-links { display: none; }
+}

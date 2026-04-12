@@ -8,14 +8,14 @@ export const chapters: Chapter[] = [
     goal: 'Maîtriser les variations, extremums, tangentes et courbes convexes.',
     resources: {
       cours: [
-        { label: 'Résumé de cours — 12 fiches essentielles' },
-        { label: 'Méthodes de résolution guidées' },
-        { label: 'Erreurs fréquentes à éviter' },
+        { label: 'Résumé de cours — 12 fiches essentielles', comingSoon: true },
+        { label: 'Méthodes de résolution guidées', comingSoon: true },
+        { label: 'Erreurs fréquentes à éviter', comingSoon: true },
       ],
       exercices: [
-        { label: '18 exercices progressifs' },
-        { label: '6 problèmes type Bac' },
-        { label: '3 entraînements chrono' },
+        { label: '18 exercices progressifs', comingSoon: true },
+        { label: '6 problèmes type Bac', comingSoon: true },
+        { label: '3 entraînements chrono', comingSoon: true },
       ],
       quiz: [
         { label: 'Quiz notions essentielles' },
@@ -23,8 +23,8 @@ export const chapters: Chapter[] = [
         { label: 'Quiz interprétation graphique' },
       ],
       bac: [
-        { label: 'Sujet Bac France 2024 — Exercice dérivation' },
-        { label: 'Sujet Bac Centres étrangers 2023' },
+        { label: 'Sujet Bac France 2024 — Exercice dérivation', comingSoon: true },
+        { label: 'Sujet Bac Centres étrangers 2023', comingSoon: true },
       ],
       equatek: [
         { label: 'Sujet Equatek A1' },
@@ -49,15 +49,15 @@ export const chapters: Chapter[] = [
           'Sa dérivée seconde est négative',
         ],
         correct: 1,
-        explanation: 'Une fonction est convexe (courbe tournée vers le bas en haut) quand sa dérivée seconde f\'\'(x) ≥ 0 sur l\'intervalle.',
+        explanation: "Une fonction est convexe (courbe tournée vers le haut) quand sa dérivée seconde f''(x) ≥ 0 sur l'intervalle.",
       },
       {
         id: 'q3',
-        question: 'Au point d\'abscisse x₀ où f\'(x₀) = 0 et f\'\'(x₀) > 0, la fonction :',
+        question: "Au point d'abscisse x₀ où f'(x₀) = 0 et f''(x₀) > 0, la fonction :",
         choices: [
           'Admet un maximum local',
           'Admet un minimum local',
-          'A un point d\'inflexion',
+          "A un point d'inflexion",
           'Est constante',
         ],
         correct: 1,
@@ -65,15 +65,15 @@ export const chapters: Chapter[] = [
       },
       {
         id: 'q4',
-        question: 'L\'équation de la tangente à C_f au point d\'abscisse a est :',
+        question: "L'équation de la tangente à C_f au point d'abscisse a est :",
         choices: [
-          'y = f(a)(x − a) + f\'(a)',
-          'y = f\'(a)(x − a) + f(a)',
-          'y = f\'(a)x + f(a)',
-          'y = f(a)x + f\'(a)',
+          "y = f(a)(x − a) + f'(a)",
+          "y = f'(a)(x − a) + f(a)",
+          "y = f'(a)x + f(a)",
+          "y = f(a)x + f'(a)",
         ],
         correct: 1,
-        explanation: 'La tangente en (a, f(a)) a pour pente f\'(a). Son équation est y = f\'(a)(x − a) + f(a).',
+        explanation: "La tangente en (a, f(a)) a pour pente f'(a). Son équation est y = f'(a)(x − a) + f(a).",
       },
     ],
     chronoDuration: 25,
@@ -85,14 +85,14 @@ export const chapters: Chapter[] = [
     goal: 'Analyser convergence, récurrence et modélisation par suites.',
     resources: {
       cours: [
-        { label: 'Fiche convergence et limites' },
-        { label: 'Méthode récurrence complète' },
-        { label: 'Suites arithmético-géométriques' },
+        { label: 'Fiche convergence et limites', comingSoon: true },
+        { label: 'Méthode récurrence complète', comingSoon: true },
+        { label: 'Suites arithmético-géométriques', comingSoon: true },
       ],
       exercices: [
-        { label: '15 exercices corrigés' },
-        { label: '8 exercices d\'approfondissement' },
-        { label: '2 devoirs blancs surveillés' },
+        { label: '15 exercices corrigés', comingSoon: true },
+        { label: "8 exercices d'approfondissement", comingSoon: true },
+        { label: '2 devoirs blancs surveillés', comingSoon: true },
       ],
       quiz: [
         { label: 'Quiz de définitions' },
@@ -100,12 +100,12 @@ export const chapters: Chapter[] = [
         { label: 'Quiz raisonnement par récurrence' },
       ],
       bac: [
-        { label: 'Sujet Bac Polynésie 2022' },
-        { label: 'Sujet Bac Amérique du Nord 2023' },
+        { label: 'Sujet Bac Polynésie 2022', comingSoon: true },
+        { label: 'Sujet Bac Amérique du Nord 2023', comingSoon: true },
       ],
       equatek: [
-        { label: 'Sujet Equatek B1' },
-        { label: 'Sujet Equatek B2' },
+        { label: 'Sujet Equatek B1', comingSoon: true },
+        { label: 'Sujet Equatek B2', comingSoon: true },
       ],
     },
     quizQuestions: [
@@ -150,27 +150,27 @@ export const chapters: Chapter[] = [
     goal: 'Raisonner proprement avec événements, indépendance et loi binomiale.',
     resources: {
       cours: [
-        { label: 'Arbres de probabilités et tableaux' },
-        { label: 'Conditionnement et formule de Bayes' },
-        { label: 'Loi binomiale et espérance' },
+        { label: 'Arbres de probabilités et tableaux', comingSoon: true },
+        { label: 'Conditionnement et formule de Bayes', comingSoon: true },
+        { label: 'Loi binomiale et espérance', comingSoon: true },
       ],
       exercices: [
-        { label: '20 exercices ciblés' },
-        { label: '5 sujets mixtes' },
-        { label: '2 études de cas réels' },
+        { label: '20 exercices ciblés', comingSoon: true },
+        { label: '5 sujets mixtes', comingSoon: true },
+        { label: '2 études de cas réels', comingSoon: true },
       ],
       quiz: [
         { label: 'Quiz arbre pondéré' },
-        { label: 'Quiz indépendance d\'événements' },
+        { label: "Quiz indépendance d'événements" },
         { label: 'Quiz loi binomiale' },
       ],
       bac: [
-        { label: 'Sujet Bac Métropole 2021' },
-        { label: 'Sujet Bac Asie 2024' },
+        { label: 'Sujet Bac Métropole 2021', comingSoon: true },
+        { label: 'Sujet Bac Asie 2024', comingSoon: true },
       ],
       equatek: [
-        { label: 'Sujet Equatek C1' },
-        { label: 'Sujet Equatek C2' },
+        { label: 'Sujet Equatek C1', comingSoon: true },
+        { label: 'Sujet Equatek C2', comingSoon: true },
       ],
     },
     quizQuestions: [
@@ -203,7 +203,7 @@ export const chapters: Chapter[] = [
         question: 'X suit une loi binomiale B(n, p). Son espérance est :',
         choices: ['np(1−p)', 'np²', 'np', 'n/p'],
         correct: 2,
-        explanation: 'L\'espérance d\'une loi binomiale B(n, p) est E(X) = n × p. La variance est np(1−p).',
+        explanation: "L'espérance d'une loi binomiale B(n, p) est E(X) = n × p. La variance est np(1−p).",
       },
     ],
     chronoDuration: 30,
@@ -218,7 +218,7 @@ export const pathways: Pathway[] = [
     objective: 'Installer des bases solides en Terminale maths pour éviter les lacunes.',
     themes: ['Dérivation et convexité', 'Suites numériques', 'Fonctions exponentielles', 'Raisonnement par récurrence'],
     targets: ['Démarrer solide', 'Être prêt pour le premier bac blanc'],
-    weeklyPlan: ['2 cours ciblés', '2 séries d\'exercices', '1 quiz validation'],
+    weeklyPlan: ['2 cours ciblés', "2 séries d'exercices", '1 quiz validation'],
     chapterIds: ['chap1', 'chap2'],
   },
   {

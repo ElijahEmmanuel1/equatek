@@ -1,0 +1,40 @@
+{
+  "name": "Equatek — Maths Terminale",
+  "short_name": "Equatek",
+  "description": "Révise les maths de Terminale chapitre par chapitre : cours, quiz, chrono et sujets Bac.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#080d1a",
+  "theme_color": "#ffd190",
+  "orientation": "portrait-primary",
+  "lang": "fr",
+  "categories": ["education"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Chapitre 1 — Dérivation",
+      "url": "/#/chapter/chap1",
+      "description": "Ouvrir directement le chapitre Dérivation"
+    },
+    {
+      "name": "Chapitre 2 — Suites",
+      "url": "/#/chapter/chap2",
+      "description": "Ouvrir directement le chapitre Suites numériques"
+    }
+  ]
+}
