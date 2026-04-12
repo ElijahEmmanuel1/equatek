@@ -39,6 +39,7 @@ export function ChapterPage({
   onBack,
 }: ChapterPageProps) {
   const [subPage, setSubPage] = useState<SubPage>('overview')
+  const [activeSubjectKey, setActiveSubjectKey] = useState<string>('A1')
 
   return (
     <div className="chapter-page">
@@ -103,7 +104,7 @@ export function ChapterPage({
                     const hasSubject = subjectKey !== null && equatekSubjects[subjectKey] !== undefined
                     return (
                       <li key={item.label} className={`res-item ${hasSubject ? 'res-item--link' : ''}`}
-                        onClick={hasSubject ? () => setSubPage('subject') : undefined}
+                        onClick={hasSubject ? () => { setActiveSubjectKey(subjectKey!); setSubPage('subject') } : undefined}
                         style={hasSubject ? { cursor: 'pointer' } : {}}
                       >
                         <span className="res-bullet" style={{ color: rc.color }}>›</span>
@@ -167,7 +168,7 @@ export function ChapterPage({
       {subPage === 'subject' && (
         <div className="subpage-wrap">
           <SubjectViewer
-            subject={equatekSubjects['A1']}
+            subject={equatekSubjects[activeSubjectKey] ?? equatekSubjects['A1']}
             onClose={() => setSubPage('overview')}
           />
         </div>

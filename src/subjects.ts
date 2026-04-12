@@ -261,6 +261,282 @@ export const subjectA1: EquatekSubject = {
   ],
 }
 
+export const subjectA2: EquatekSubject = {
+  id: 'A2',
+  label: 'Sujet Equatek A2',
+  title: 'Épreuve Blanche — Sujet 2',
+  year: 2026,
+  duration: '4 heures',
+  notice:
+    "La qualité de la rédaction, la clarté et la précision des raisonnements entreront pour une part importante dans l'appréciation des copies. L'usage de la calculatrice est autorisé. Le sujet de Spécialité est noté sur 20 points (Exercices 1 à 4). L'Exercice 5 s'adresse uniquement aux élèves suivant l'option Mathématiques Expertes.",
+  exercises: [
+    {
+      id: 'ex1',
+      number: 1,
+      title: 'Probabilités & Chaînes de Markov',
+      points: 5,
+      color: '#7c9eff',
+      parts: [
+        {
+          title: 'Partie A : Contrôle de qualité',
+          intro:
+            "Une entreprise fabrique des composants électroniques. La probabilité qu'un composant soit défectueux est $p = 0{,}03$. Les composants sont emballés par lots de $50$. On note $X$ la variable aléatoire donnant le nombre de composants défectueux dans un lot.",
+          questions: [
+            {
+              num: 1,
+              text: "Justifier que la variable aléatoire $X$ suit une loi binomiale dont on précisera les paramètres.",
+            },
+            {
+              num: 2,
+              text: "Calculer la probabilité qu'un lot ne contienne aucun composant défectueux. Arrondir à $10^{-3}$.",
+            },
+            {
+              num: 3,
+              text: "Calculer la probabilité qu'un lot contienne au moins un composant défectueux.",
+            },
+            {
+              num: 4,
+              text: "L'entreprise souhaite que la probabilité d'avoir au moins un composant défectueux dans un lot de taille $n$ soit supérieure à $0{,}99$. Quelle doit être la taille minimale $n$ du lot ?",
+            },
+          ],
+        },
+        {
+          title: 'Partie B : Maintenance des machines',
+          intro:
+            "La machine est soit en état de marche $(M)$, soit en panne $(P)$. Si elle est en marche le jour $n$, elle a $90\\%$ de chances d'être en marche le jour $n+1$. Si elle est en panne, les techniciens interviennent et elle a $70\\%$ de chances d'être réparée. On note $M_0 = 1$ et $P_0 = 0$.",
+          questions: [
+            {
+              num: 5,
+              text: "Représenter la situation par un graphe probabiliste et donner la matrice de transition $A$.",
+            },
+            {
+              num: 6,
+              text: "Exprimer $M_{n+1}$ en fonction de $M_n$ et $P_n$.",
+            },
+            {
+              num: 7,
+              text: "En déduire que pour tout entier naturel $n$ : $M_{n+1} = 0{,}2\\,M_n + 0{,}7$.",
+            },
+            {
+              num: 8,
+              text: "On pose $u_n = M_n - 0{,}875$. Montrer que la suite $(u_n)$ est géométrique de raison $0{,}2$.",
+            },
+            {
+              num: 9,
+              text: "Déterminer la limite de la suite $(M_n)$ quand $n \\to +\\infty$ et interpréter ce résultat.",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'ex2',
+      number: 2,
+      title: 'Géométrie dans un Cube',
+      points: 5,
+      color: '#c084fc',
+      intro:
+        "On considère un cube $ABCDEFGH$ d'arête $1$ dans le repère orthonormé $(A;\\vec{AB},\\vec{AD},\\vec{AE})$. On place : $I$ le centre de la face $EFGH$, $J$ le milieu de $[BC]$, $K$ le milieu de $[CD]$.",
+      parts: [
+        {
+          questions: [
+            { num: 1, text: "Déterminer, sans justification, les coordonnées des points $I$, $J$ et $K$." },
+            {
+              num: 2,
+              text: "Démontrer que $\\vec{n}\\begin{pmatrix} 2 \\\\ 2 \\\\ 1 \\end{pmatrix}$ est un vecteur normal au plan $(IJK)$.",
+            },
+            { num: 3, text: "En déduire une équation cartésienne du plan $(IJK)$." },
+            {
+              num: 4,
+              text: "Soit $(d)$ la droite passant par $F$ et orthogonale au plan $(IJK)$. Déterminer une représentation paramétrique de $(d)$.",
+            },
+            {
+              num: 5,
+              text: "Déterminer les coordonnées du point $L$, intersection de $(d)$ et du plan $(IJK)$.",
+            },
+            { num: 6, text: "Calculer la distance du point $F$ au plan $(IJK)$." },
+            {
+              num: 7,
+              text: "Les plans $(IJK)$ et $(ABC)$ sont-ils sécants ? Si oui, donner un vecteur directeur de leur droite d'intersection.",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'ex3',
+      number: 3,
+      title: 'Analyse et Étude de Fonction',
+      points: 6,
+      color: '#ffd190',
+      intro: "On considère la fonction $f$ définie sur $\\mathbb{R}$ par :",
+      parts: [
+        {
+          questions: [
+            {
+              num: 1,
+              text: "Déterminer la limite de $f(x)$ lorsque $x \\to -\\infty$.",
+              highlight: 'f(x) = (x^2 - 2x + 2)e^{-x}',
+            },
+          ],
+        },
+        {
+          title: 'Étude des limites',
+          questions: [
+            {
+              num: 1,
+              text: "Déterminer $\\lim_{x \\to -\\infty} f(x)$.",
+            },
+            {
+              num: 2,
+              text: "En développant $f(x)$, déterminer $\\lim_{x \\to +\\infty} f(x)$. On rappelle que $\\lim_{x \\to +\\infty} \\dfrac{x^n}{e^x} = 0$. Interpréter graphiquement.",
+            },
+          ],
+        },
+        {
+          title: 'Étude des variations',
+          questions: [
+            {
+              num: 3,
+              text: "Démontrer que pour tout réel $x$ : $f'(x) = -x^2 e^{-x}$.",
+            },
+            { num: 4, text: "En déduire le signe de $f'(x)$ sur $\\mathbb{R}$." },
+            { num: 5, text: "Dresser le tableau de variations complet de la fonction $f$." },
+          ],
+        },
+        {
+          title: 'Tangentes et Convexité',
+          questions: [
+            {
+              num: 6,
+              text: "Déterminer l'équation réduite de la tangente $(T)$ à $\\mathcal{C}_f$ au point d'abscisse $x = 0$.",
+            },
+            { num: 7, text: "Calculer $f''(x)$ et étudier son signe." },
+            {
+              num: 8,
+              text: "Déterminer les coordonnées exactes des points d'inflexion de la courbe $\\mathcal{C}_f$.",
+            },
+          ],
+        },
+        {
+          title: 'Équation',
+          questions: [
+            {
+              num: 9,
+              text: "Démontrer que $f(x) = 10$ admet une unique solution $\\alpha$ sur $\\mathbb{R}$. Donner un encadrement de $\\alpha$ d'amplitude $10^{-1}$.",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'ex4',
+      number: 4,
+      title: 'Équations Différentielles & IPP',
+      points: 4,
+      color: '#5cffb4',
+      parts: [
+        {
+          title: 'Partie A : Résolution de l\'équation différentielle',
+          intro: "On considère l'équation différentielle $(E) : y' + y = 2e^{-x}$.",
+          questions: [
+            {
+              num: 1,
+              text: "Résoudre l'équation différentielle homogène associée $(E_0) : y' + y = 0$.",
+            },
+            {
+              num: 2,
+              text: "Soit $u(x) = 2xe^{-x}$. Démontrer que $u$ est une solution particulière de $(E)$.",
+            },
+            {
+              num: 3,
+              text: "En déduire l'ensemble des solutions de l'équation différentielle $(E)$.",
+            },
+            {
+              num: 4,
+              text: "Déterminer l'unique solution $f$ de $(E)$ vérifiant $f(0) = -3$.",
+            },
+          ],
+        },
+        {
+          title: 'Partie B : Calcul Intégral',
+          intro: "On s'intéresse à la fonction $g$ définie sur $\\mathbb{R}$ par $g(x) = 2xe^{-x}$.",
+          questions: [
+            {
+              num: 5,
+              text: "À l'aide d'une intégration par parties (IPP), calculer la valeur exacte de :",
+              highlight: 'I = \\int_{0}^{2} 2x\\,e^{-x}\\,dx',
+            },
+            {
+              num: 6,
+              text: "La fonction $g$ étant positive sur $[0;2]$, que représente concrètement la valeur de $I$ ?",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'ex5',
+      number: 5,
+      title: 'Nombres Complexes & Géométrie',
+      points: 4,
+      color: '#ff9f7a',
+      expert: true,
+      parts: [
+        {
+          title: 'Partie 1 : Résolution de l\'équation',
+          intro: "Dans le plan complexe, on considère l'équation $(E)$ d'inconnue $z$ :",
+          questions: [
+            {
+              num: 1,
+              text: "Montrer que $z_0 = 4$ est une solution de $(E)$.",
+              highlight: '(E) : z^3 - 8z^2 + 24z - 32 = 0',
+            },
+            {
+              num: 2,
+              text: "Déterminer les réels $a$, $b$, $c$ tels que : $z^3 - 8z^2 + 24z - 32 = (z-4)(az^2 + bz + c)$.",
+            },
+            {
+              num: 3,
+              text: "Résoudre dans $\\mathbb{C}$ l'équation $z^2 - 4z + 8 = 0$.",
+            },
+            {
+              num: 4,
+              text: "En déduire l'ensemble des solutions de $(E)$.",
+            },
+          ],
+        },
+        {
+          title: 'Partie 2 : Étude géométrique',
+          intro:
+            "On note $A$, $B$ et $C$ les points d'affixes $z_A = 4$, $z_B = 2+2i$, $z_C = 2-2i$.",
+          questions: [
+            {
+              num: 5,
+              text: "Placer de façon précise les points $A$, $B$ et $C$ dans un repère du plan complexe.",
+            },
+            {
+              num: 6,
+              text: "Calculer le module et un argument de $\\displaystyle Z = \\dfrac{z_B - z_A}{z_C - z_A}$.",
+            },
+            { num: 7, text: "En déduire la nature exacte du triangle $ABC$." },
+            {
+              num: 8,
+              text: "Soit $D$ l'image de $B$ par la rotation de centre $O$ et d'angle $\\dfrac{\\pi}{2}$. Déterminer l'affixe de $D$.",
+            },
+            {
+              num: 9,
+              text: "Montrer que les points $O$, $C$ et $D$ sont alignés.",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}
+
 export const equatekSubjects: Record<string, EquatekSubject> = {
   A1: subjectA1,
+  A2: subjectA2,
 }
+
