@@ -1,88 +1,110 @@
 import { useState } from 'react'
 import './App.css'
 
-const pathways = [
+const termMathPathways = [
   {
-    id: 'term-start',
-    label: 'Terminale - Mise en route',
+    id: 'trim1',
+    label: 'Terminale - Fondations',
     badge: 'Trimestre 1',
-    objective: 'Installer les bases de Terminale en maths et physique-chimie sans lacunes.',
-    themes: ['Dérivation et convexité', 'Suites et raisonnement', 'Cinématique et dynamique', 'Réactions acide-base'],
+    objective: 'Installer des bases solides en Terminale maths pour éviter les lacunes.',
+    themes: ['Dérivation et convexité', 'Suites numériques', 'Fonctions exponentielles', 'Raisonnement par récurrence'],
     targets: ['Démarrer solide', 'Être prêt pour le premier bac blanc'],
-    weeklyPlan: ['2 cours ciblés', '2 séries d exercices', '1 mini devoir chronométré'],
+    weeklyPlan: ['2 cours ciblés', '2 séries d exercices', '1 quiz validation'],
   },
   {
-    id: 'term-mid',
-    label: 'Terminale - Consolidation',
+    id: 'trim2',
+    label: 'Terminale - Maîtrise',
     badge: 'Trimestre 2',
-    objective: 'Renforcer les méthodes Bac et stabiliser la rédaction scientifique.',
-    themes: ['Primitives et équations diff', 'Probabilités conditionnelles', 'Énergie et conversions', 'Oxydoréduction et cinétique'],
+    objective: 'Renforcer les méthodes Bac et stabiliser la qualité de rédaction.',
+    themes: ['Primitives et intégration', 'Probabilités conditionnelles', 'Variables aléatoires', 'Combinatoire'],
     targets: ['Élever la moyenne', 'Rendre des copies propres et complètes'],
     weeklyPlan: ['3 blocs de travail', '2 sujets type Bac', '1 séance de correction active'],
   },
   {
-    id: 'term-bac',
-    label: 'Terminale - Sprint Bac',
-    badge: 'Révisions finales',
-    objective: 'Passer en mode performance sur annales, timing et stratégies de sujets.',
-    themes: ['Annales maths spécialité', 'Annales physique-chimie', 'Sujets transversaux', 'Pièges fréquents'],
+    id: 'trim3',
+    label: 'Terminale - Performance Bac',
+    badge: 'Trimestre 3',
+    objective: 'Passer en mode performance sur annales, timing et stratégies de sujets maths.',
+    themes: ['Annales maths spécialité', 'Sujets zéro', 'Pièges fréquents', 'Stratégie de sujet'],
     targets: ['Maximiser la note au Bac', 'Arriver serein le jour J'],
     weeklyPlan: ['2 sujets complets', '1 oral de 20 min', '1 bilan des erreurs critiques'],
   },
+] as const
+
+const chapters = [
   {
-    id: 'term-bridge',
-    label: 'Terminale - Passerelle CPGE',
-    badge: 'Après Bac',
-    objective: 'Préparer la transition vers MPSI/MP avec de bons automatismes scientifiques.',
-    themes: ['Rigueur de rédaction', 'Calcul algébrique rapide', 'Modélisation physique', 'Organisation de travail en autonomie'],
-    targets: ['Entrée en CPGE plus fluide', 'Moins de choc de niveau en septembre'],
-    weeklyPlan: ['2 fiches passerelle', '1 problème guidé', '1 oral blanc type colle'],
+    id: 'chap1',
+    title: 'Dérivation et convexité',
+    period: 'Septembre',
+    goal: 'Maîtriser les variations, extremums, tangentes et courbes.',
+    resources: {
+      cours: ['Résumé de cours en 12 fiches', 'Méthodes de résolution guidées', 'Erreurs fréquentes à éviter'],
+      exercices: ['18 exercices progressifs', '6 problèmes type Bac', '3 entraînements chrono'],
+      quiz: ['Quiz notions essentielles', 'Quiz dérivées usuelles', 'Quiz interprétation graphique'],
+      bac: ['Sujet Bac France 2024 - Exercice dérivation', 'Sujet Bac Centres étrangers 2023'],
+      equatek: ['Sujet Equatek A1', 'Sujet Equatek A2'],
+    },
+  },
+  {
+    id: 'chap2',
+    title: 'Suites numériques',
+    period: 'Octobre',
+    goal: 'Analyser convergence, récurrence et modélisation par suites.',
+    resources: {
+      cours: ['Fiche convergence', 'Méthode récurrence complète', 'Suites arithmético-géométriques'],
+      exercices: ['15 exercices corrigés', '8 exercices d approfondissement', '2 devoirs surveillés blancs'],
+      quiz: ['Quiz de définitions', 'Quiz calcul de limite', 'Quiz récurrence'],
+      bac: ['Sujet Bac Polynésie 2022', 'Sujet Bac Amérique du Nord 2023'],
+      equatek: ['Sujet Equatek B1', 'Sujet Equatek B2'],
+    },
+  },
+  {
+    id: 'chap3',
+    title: 'Probabilités conditionnelles',
+    period: 'Novembre',
+    goal: 'Raisonner proprement avec événements, indépendance et loi binomiale.',
+    resources: {
+      cours: ['Arbres et tableaux', 'Conditionnement et Bayes', 'Loi binomiale et espérance'],
+      exercices: ['20 exercices ciblés', '5 sujets mixtes', '2 études de cas'],
+      quiz: ['Quiz arbre pondéré', 'Quiz indépendance', 'Quiz loi binomiale'],
+      bac: ['Sujet Bac Métropole 2021', 'Sujet Bac Asie 2024'],
+      equatek: ['Sujet Equatek C1', 'Sujet Equatek C2'],
+    },
   },
 ] as const
 
-const subjectPillars = [
-  {
-    name: 'Maths',
-    tone: 'tone-maths',
-    items: ['Spé maths Terminale', 'Exercices type Bac', 'Méthodes de rédaction notées'],
-    progress: 82,
-  },
-  {
-    name: 'Physique',
-    tone: 'tone-physics',
-    items: ['Physique Terminale', 'Modélisation guidée', 'Sujets Bac chronométrés'],
-    progress: 76,
-  },
-  {
-    name: 'Chimie',
-    tone: 'tone-chemistry',
-    items: ['Chimie Terminale', 'Bilans réactionnels', 'Annales corrigées et commentées'],
-    progress: 71,
-  },
+const resourceBlocks = [
+  { key: 'cours', label: 'Cours', icon: 'Cours' },
+  { key: 'exercices', label: 'Exercices', icon: 'Exos' },
+  { key: 'quiz', label: 'Quiz', icon: 'Quiz' },
+  { key: 'bac', label: 'Sujets de Bac', icon: 'Bac' },
+  { key: 'equatek', label: 'Sujets Equatek', icon: 'EQK' },
 ] as const
 
-const contestTools = [
+const termMathTools = [
   {
-    title: 'Mode Bac intelligent',
-    description: 'Annales Terminale filtrées par chapitre, niveau de difficulté et durée.',
+    title: 'Progression chapitre par chapitre',
+    description: 'Tu avances chapitre par chapitre avec des objectifs et validations nettes.',
   },
   {
     title: 'Mode chrono',
-    description: 'Simulation d épreuve Bac avec timer, barème, et correction structurée.',
+    description: 'Simulation de sujet de Bac en temps réel, barème et correction structurée.',
   },
   {
-    title: 'Grand oral scientifique',
-    description: 'Sujets, relances, grille d évaluation et entraînement de prise de parole.',
+    title: 'Suivi des erreurs',
+    description: 'Chaque erreur est classée par notion pour cibler tes prochaines séances.',
   },
   {
-    title: 'Tableau de progression',
-    description: 'Suivi des chapitres Terminale, lacunes critiques et plan de révision adaptatif.',
+    title: 'Parcours personnalisé',
+    description: 'Le planning s adapte selon les quiz et les résultats aux sujets.',
   },
 ] as const
 
 function App() {
-  const [activePathId, setActivePathId] = useState<(typeof pathways)[number]['id']>('term-start')
-  const activePath = pathways.find((path) => path.id === activePathId) ?? pathways[0]
+  const [activePathId, setActivePathId] = useState<(typeof termMathPathways)[number]['id']>('trim1')
+  const [activeChapterId, setActiveChapterId] = useState<(typeof chapters)[number]['id']>('chap1')
+  const activePath = termMathPathways.find((path) => path.id === activePathId) ?? termMathPathways[0]
+  const activeChapter = chapters.find((chapter) => chapter.id === activeChapterId) ?? chapters[0]
 
   return (
     <main className="platform">
@@ -94,36 +116,36 @@ function App() {
           <p className="brand">Equatek</p>
           <div className="hero-nav-links">
             <a href="#pathways">Parcours</a>
-            <a href="#subjects">Matières</a>
+            <a href="#chapters">Chapitres</a>
             <a href="#concours">Concours</a>
           </div>
         </nav>
 
         <section className="hero-main">
           <div>
-            <p className="eyebrow">Troisième jusqu’en CPGE</p>
-            <h1>Mode Terminale activé: réussir le Bac et préparer l entrée en CPGE.</h1>
+            <p className="eyebrow">Terminale - Mathématiques</p>
+            <h1>On avance chapitre par chapitre, avec cours, exos, quiz et sujets Bac.</h1>
             <p className="hero-text">
-              On se concentre maintenant sur Terminale: progression trimestrielle, entraînement Bac, et
-              passerelle vers le supérieur pour arriver en prépa avec plus de confiance.
+              Pour chaque chapitre de maths en Terminale: tu as un parcours clair avec contenus de cours,
+              entraînements, quiz de validation, sujets de Bac et sujets Equatek.
             </p>
             <div className="hero-actions">
-              <a className="button button-strong" href="#pathways">
-                Choisir mon niveau
+              <a className="button button-strong" href="#chapters">
+                Commencer un chapitre
               </a>
               <a className="button button-soft" href="#concours">
-                Voir le mode concours
+                Préparer le Bac
               </a>
             </div>
           </div>
 
           <aside className="hero-panel">
             <p>Objectif actuel</p>
-            <h2>Gagner des points chaque semaine, sans surcharge inutile.</h2>
+            <h2>Transformer chaque chapitre en points gagnés au Bac.</h2>
             <ul>
-              <li>Plan Terminale hebdomadaire clair</li>
-              <li>Exercices Bac corrigés et expliqués</li>
-              <li>Suivi de progression par chapitre</li>
+              <li>1 chapitre a la fois, sans dispersion</li>
+              <li>Validation par quiz et sujet</li>
+              <li>Progression visible semaine après semaine</li>
             </ul>
           </aside>
         </section>
@@ -132,11 +154,11 @@ function App() {
       <section className="section" id="pathways">
         <div className="section-head">
           <p className="eyebrow">Parcours pédagogique</p>
-          <h2>Ton plan Terminale du T1 jusqu au post-Bac.</h2>
+          <h2>Progression annuelle en maths Terminale.</h2>
         </div>
 
         <div className="pathway-tabs">
-          {pathways.map((path) => (
+          {termMathPathways.map((path) => (
             <button
               key={path.id}
               type="button"
@@ -185,41 +207,59 @@ function App() {
         </article>
       </section>
 
-      <section className="section" id="subjects">
+      <section className="section" id="chapters">
         <div className="section-head">
-          <p className="eyebrow">Matières</p>
-          <h2>Maths, Physique, Chimie en version Terminale performante.</h2>
+          <p className="eyebrow">Chapitres de maths</p>
+          <h2>Choisis un chapitre puis travaille les 5 blocs essentiels.</h2>
         </div>
 
-        <div className="pillar-grid">
-          {subjectPillars.map((pillar) => (
-            <article key={pillar.name} className={`pillar ${pillar.tone}`}>
-              <h3>{pillar.name}</h3>
-              <ul>
-                {pillar.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-              <div className="progress-wrap">
-                <span>Bibliothèque prête</span>
-                <strong>{pillar.progress}%</strong>
-              </div>
-              <div className="progress-bar">
-                <span style={{ width: `${pillar.progress}%` }} />
-              </div>
-            </article>
+        <div className="chapter-tabs">
+          {chapters.map((chapter) => (
+            <button
+              key={chapter.id}
+              type="button"
+              onClick={() => setActiveChapterId(chapter.id)}
+              className={chapter.id === activeChapterId ? 'chapter-tab active' : 'chapter-tab'}
+            >
+              <span>{chapter.title}</span>
+              <strong>{chapter.period}</strong>
+            </button>
           ))}
         </div>
+
+        <article className="chapter-detail">
+          <header>
+            <p className="eyebrow">{activeChapter.period}</p>
+            <h3>{activeChapter.title}</h3>
+            <p>{activeChapter.goal}</p>
+          </header>
+
+          <div className="resource-grid">
+            {resourceBlocks.map((block) => (
+              <article key={block.key} className="resource-card">
+                <div className="resource-top">
+                  <span>{block.icon}</span>
+                  <h4>{block.label}</h4>
+                </div>
+                <ul>
+                  {activeChapter.resources[block.key].map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </article>
       </section>
 
       <section className="section" id="concours">
         <div className="section-head">
-          <p className="eyebrow">Préparation concours</p>
-          <h2>Préparer le Bac maintenant, préparer les concours ensuite.</h2>
+          <p className="eyebrow">Mode Bac</p>
+          <h2>Préparer le Bac de maths avec une méthode stable.</h2>
         </div>
 
         <div className="tool-grid">
-          {contestTools.map((tool) => (
+          {termMathTools.map((tool) => (
             <article key={tool.title} className="tool-card">
               <h3>{tool.title}</h3>
               <p>{tool.description}</p>
