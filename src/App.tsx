@@ -1,268 +1,230 @@
+import { useState } from 'react'
 import './App.css'
 
-const subjects = [
+const pathways = [
+  {
+    id: 'troisieme',
+    label: 'Troisième',
+    badge: 'Brevet',
+    objective: 'Construire des bases solides et des automatismes propres.',
+    themes: ['Fractions et puissances', 'Géométrie et théorème de Thalès', 'Chimie des solutions', 'Électricité simple'],
+    targets: ['Réussir le Brevet', 'Passer en Seconde avec confiance'],
+    weeklyPlan: ['2 cours courts', '3 exercices guidés', '1 devoir bilan'],
+  },
+  {
+    id: 'lycee',
+    label: 'Lycée',
+    badge: 'Bac',
+    objective: 'Monter en abstraction et maîtriser les chapitres clés du Bac.',
+    themes: ['Fonctions et dérivées', 'Mécanique et énergie', 'Acide-base et redox', 'Probabilités conditionnelles'],
+    targets: ['Performance au Bac', 'Préparation à Parcoursup scientifique'],
+    weeklyPlan: ['3 cours ciblés', '2 sujets type Bac', '1 correction active'],
+  },
+  {
+    id: 'sup',
+    label: 'Post-bac scientifique',
+    badge: 'L1/L2',
+    objective: 'Structurer les méthodes universitaires avant la spécialisation.',
+    themes: ['Algèbre linéaire', 'Intégration et EDO', 'Thermodynamique', 'Cinétique chimique'],
+    targets: ['Valider les UE fondamentales', 'Préparer les passerelles vers concours'],
+    weeklyPlan: ['2 fiches méthode', '2 TD chronométrés', '1 oral blanc'],
+  },
+  {
+    id: 'cpge',
+    label: 'CPGE MPSI/MP',
+    badge: 'Concours',
+    objective: 'Rédiger proprement, aller vite, tenir sous pression concours.',
+    themes: ['Analyse avancée', 'Mécanique et électromagnétisme', 'Chimie de concours', 'Exercices oraux de colles'],
+    targets: ['Mines, Centrale, CCP', 'Oral maîtrisé et stratégie de sujet'],
+    weeklyPlan: ['4 blocs intensifs', '2 annales complètes', '1 simulation de colle'],
+  },
+] as const
+
+const subjectPillars = [
   {
     name: 'Maths',
-    accent: 'La structure avant le calcul',
-    description:
-      'Algèbre linéaire, analyse, probabilités et méthodes de résolution pour les colles, DM et concours.',
-    modules: ['Suites et séries', 'Espaces vectoriels', 'Intégrales impropres', 'Probabilités'],
-    gradient: 'from-maths',
-    stats: ['24 fiches', '52 exercices', '18 méthodes'],
+    tone: 'tone-maths',
+    items: ['Cours progressif par niveau', 'Exercices gradués', 'Méthodes de rédaction'],
+    progress: 82,
   },
   {
     name: 'Physique',
-    accent: 'Modéliser, écrire, vérifier',
-    description:
-      'Mécanique, électromagnétisme, thermodynamique et ondes avec les bons réflexes de rédaction.',
-    modules: ['Mécanique du point', 'Circuits RLC', 'Thermodynamique', 'Optique'],
-    gradient: 'from-physics',
-    stats: ['19 fiches', '41 exercices', '12 TP'],
+    tone: 'tone-physics',
+    items: ['Modélisation guidée', 'TP expliqués', 'Sujets type concours'],
+    progress: 76,
   },
   {
     name: 'Chimie',
-    accent: 'Relier équilibres et énergie',
-    description:
-      'Thermochimie, équilibres acide-base, cinétique et coordination pour gagner des points rapidement.',
-    modules: ['Réactions acide-base', 'Oxydoréduction', 'Cinétique', 'Diagrammes'],
-    gradient: 'from-chemistry',
-    stats: ['21 fiches', '38 exercices', '9 synthèses'],
+    tone: 'tone-chemistry',
+    items: ['Mécanismes et bilans', 'Fiches flash', 'Annales corrigées'],
+    progress: 71,
   },
 ] as const
 
-const formulas = [
+const contestTools = [
   {
-    label: 'Produit scalaire',
-    value: 'u · v = ||u|| ||v|| cos(θ)',
-    note: 'Point d’appui pour les projections, distances et optimisations.',
+    title: 'Annales intelligentes',
+    description: 'Filtre par niveau, thème et difficulté pour travailler exactement ce dont tu as besoin.',
   },
   {
-    label: 'Loi de Newton',
-    value: 'ΣF = m a',
-    note: 'Toujours commencer par le système et le référentiel.',
+    title: 'Mode chrono',
+    description: 'Simulation d’épreuve avec timer, barème et correction structurée.',
   },
   {
-    label: 'Équilibre chimique',
-    value: 'K = Π produits / Π réactifs',
-    note: 'Tracer le sens d’évolution avant de calculer.',
+    title: 'Prépa orale',
+    description: 'Questions de colle, relances, et grille d’évaluation de la réponse.',
   },
   {
-    label: 'Théorème de l’énergie cinétique',
-    value: 'ΔEc = ΣW(ext)',
-    note: 'Excellent pour verrouiller une mise en équation en mécanique.',
-  },
-] as const
-
-const focusBlocks = [
-  {
-    title: 'Méthode express',
-    items: ['Identifier les données', 'Écrire la loi physique', 'Isoler l’inconnue', 'Vérifier les unités'],
-  },
-  {
-    title: 'Sprint concours',
-    items: ['1 exercice de maths', '1 problème de physique', '1 synthèse de chimie', '1 correction active'],
-  },
-  {
-    title: 'Révision longue',
-    items: ['Relire la fiche', 'Refaire un exercice sans aide', 'Comparer avec la correction', 'Noter les pièges'],
+    title: 'Tableau de progression',
+    description: 'Suivi des chapitres, lacunes critiques et recommandations de séances.',
   },
 ] as const
 
 function App() {
+  const [activePathId, setActivePathId] = useState<(typeof pathways)[number]['id']>('troisieme')
+  const activePath = pathways.find((path) => path.id === activePathId) ?? pathways[0]
+
   return (
-    <main className="app-shell">
-      <div className="ambient ambient-a" />
-      <div className="ambient ambient-b" />
+    <main className="platform">
+      <div className="glow glow-left" />
+      <div className="glow glow-right" />
 
-      <header className="topbar">
-        <div>
-          <p className="eyebrow">Equatek • CPGE MPSI / MP</p>
-          <h1>La base d’entraînement la plus propre pour maths, physique et chimie.</h1>
-        </div>
+      <header className="hero">
+        <nav className="hero-nav">
+          <p className="brand">Equatek</p>
+          <div className="hero-nav-links">
+            <a href="#pathways">Parcours</a>
+            <a href="#subjects">Matières</a>
+            <a href="#concours">Concours</a>
+          </div>
+        </nav>
 
-        <div className="topbar-card">
-          <span>Programme ciblé</span>
-          <strong>Colles, DS, concours</strong>
-          <p>Fiches nettes, exercices guidés et rappels de méthode en un seul endroit.</p>
-        </div>
+        <section className="hero-main">
+          <div>
+            <p className="eyebrow">Troisième jusqu’en CPGE</p>
+            <h1>Une plateforme unique pour préparer examens et concours scientifiques.</h1>
+            <p className="hero-text">
+              Tu voulais une vraie progression continue: on couvre les bases collège, la montée en niveau lycée,
+              puis la performance concours en MPSI/MP avec des méthodes adaptées à chaque étape.
+            </p>
+            <div className="hero-actions">
+              <a className="button button-strong" href="#pathways">
+                Choisir mon niveau
+              </a>
+              <a className="button button-soft" href="#concours">
+                Voir le mode concours
+              </a>
+            </div>
+          </div>
+
+          <aside className="hero-panel">
+            <p>Objectif actuel</p>
+            <h2>Performance régulière, pas révision panique.</h2>
+            <ul>
+              <li>Plan de travail hebdomadaire auto-adapté</li>
+              <li>Exercices corrigés et commentés</li>
+              <li>Suivi de progression par compétence</li>
+            </ul>
+          </aside>
+        </section>
       </header>
 
-      <section className="hero-grid">
-        <article className="hero-panel hero-panel-main">
-          <div className="hero-kicker">
-            <span className="pill pill-primary">3e année de travail</span>
-            <span className="pill">Rationnel et visuel</span>
-          </div>
-          <h2>Apprends vite, retiens mieux, rédige juste.</h2>
-          <p>
-            Une interface conçue pour la prépa: progression par matière, points-clés mémorisables,
-            et entraînement orienté concours pour éviter les révisions dispersées.
-          </p>
+      <section className="section" id="pathways">
+        <div className="section-head">
+          <p className="eyebrow">Parcours pédagogique</p>
+          <h2>Ton chemin du Brevet aux concours CPGE.</h2>
+        </div>
 
-          <div className="hero-actions">
-            <a className="button button-primary" href="#subjects">
-              Explorer les matières
-            </a>
-            <a className="button button-secondary" href="#planner">
-              Voir le planning
-            </a>
-          </div>
+        <div className="pathway-tabs">
+          {pathways.map((path) => (
+            <button
+              key={path.id}
+              type="button"
+              onClick={() => setActivePathId(path.id)}
+              className={path.id === activePathId ? 'pathway-tab active' : 'pathway-tab'}
+            >
+              <span>{path.label}</span>
+              <strong>{path.badge}</strong>
+            </button>
+          ))}
+        </div>
 
-          <div className="hero-metrics">
+        <article className="pathway-detail">
+          <header>
+            <p className="eyebrow">{activePath.badge}</p>
+            <h3>{activePath.label}</h3>
+            <p>{activePath.objective}</p>
+          </header>
+
+          <div className="detail-grid">
             <div>
-              <strong>64</strong>
-              <span>fiches de cours</span>
+              <h4>Thèmes prioritaires</h4>
+              <ul>
+                {activePath.themes.map((theme) => (
+                  <li key={theme}>{theme}</li>
+                ))}
+              </ul>
             </div>
             <div>
-              <strong>131</strong>
-              <span>exercices et problèmes</span>
+              <h4>Objectifs de résultat</h4>
+              <ul>
+                {activePath.targets.map((target) => (
+                  <li key={target}>{target}</li>
+                ))}
+              </ul>
             </div>
             <div>
-              <strong>3</strong>
-              <span>matières synchronisées</span>
+              <h4>Rythme hebdomadaire conseillé</h4>
+              <ul>
+                {activePath.weeklyPlan.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ul>
             </div>
           </div>
         </article>
-
-        <aside className="hero-panel hero-panel-aside">
-          <div className="scoreboard">
-            <div>
-              <span>Objectif du jour</span>
-              <strong>Relancer les automatismes</strong>
-            </div>
-            <span className="score">8 h 20 min</span>
-          </div>
-
-          <div className="mini-stack">
-            <div className="mini-card mini-card-highlight">
-              <span>Maths</span>
-              <strong>Diagonaliser sans hésiter</strong>
-              <p>Base, noyau, rang, interprétation géométrique.</p>
-            </div>
-            <div className="mini-card">
-              <span>Physique</span>
-              <strong>Modéliser avant de calculer</strong>
-              <p>Un schéma, une loi, une projection, un bilan.</p>
-            </div>
-            <div className="mini-card">
-              <span>Chimie</span>
-              <strong>Suivre le sens d’évolution</strong>
-              <p>Avancement, quotient réactionnel, état final.</p>
-            </div>
-          </div>
-        </aside>
       </section>
 
       <section className="section" id="subjects">
-        <div className="section-heading">
+        <div className="section-head">
           <p className="eyebrow">Matières</p>
-          <h2>Une colonne vertébrale par discipline.</h2>
-          <p>Chaque bloc va droit à l’essentiel: cours, exercices, méthodes et réflexes de copie.</p>
+          <h2>Maths, Physique, Chimie: mêmes standards, niveaux différents.</h2>
         </div>
 
-        <div className="subject-grid">
-          {subjects.map((subject) => (
-            <article key={subject.name} className={`subject-card ${subject.gradient}`}>
-              <div className="subject-header">
-                <div>
-                  <p>{subject.name}</p>
-                  <h3>{subject.accent}</h3>
-                </div>
-                <span>{subject.stats[0]}</span>
-              </div>
-
-              <p className="subject-description">{subject.description}</p>
-
-              <div className="tag-list">
-                {subject.modules.map((module) => (
-                  <span key={module} className="tag">
-                    {module}
-                  </span>
+        <div className="pillar-grid">
+          {subjectPillars.map((pillar) => (
+            <article key={pillar.name} className={`pillar ${pillar.tone}`}>
+              <h3>{pillar.name}</h3>
+              <ul>
+                {pillar.items.map((item) => (
+                  <li key={item}>{item}</li>
                 ))}
+              </ul>
+              <div className="progress-wrap">
+                <span>Bibliothèque prête</span>
+                <strong>{pillar.progress}%</strong>
               </div>
-
-              <div className="stats-row">
-                {subject.stats.map((stat) => (
-                  <div key={stat}>
-                    <strong>{stat.split(' ')[0]}</strong>
-                    <span>{stat.split(' ').slice(1).join(' ')}</span>
-                  </div>
-                ))}
+              <div className="progress-bar">
+                <span style={{ width: `${pillar.progress}%` }} />
               </div>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="section split-section">
-        <div>
-          <div className="section-heading compact">
-            <p className="eyebrow">Repères</p>
-            <h2>Les formules qui doivent devenir instantanées.</h2>
-          </div>
-
-          <div className="formula-list">
-            {formulas.map((formula) => (
-              <article key={formula.label} className="formula-card">
-                <div>
-                  <p>{formula.label}</p>
-                  <strong>{formula.value}</strong>
-                </div>
-                <span>{formula.note}</span>
-              </article>
-            ))}
-          </div>
+      <section className="section" id="concours">
+        <div className="section-head">
+          <p className="eyebrow">Préparation concours</p>
+          <h2>Une UX faite pour performer sous contrainte.</h2>
         </div>
 
-        <aside className="focus-panel">
-          <div className="section-heading compact">
-            <p className="eyebrow">Organisation</p>
-            <h2>3 formats de séance, selon ton énergie.</h2>
-          </div>
-
-          <div className="focus-grid">
-            {focusBlocks.map((block) => (
-              <article key={block.title} className="focus-card">
-                <h3>{block.title}</h3>
-                <ul>
-                  {block.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </aside>
-      </section>
-
-      <section className="section planner-section" id="planner">
-        <div className="section-heading">
-          <p className="eyebrow">Planning hebdo</p>
-          <h2>Une semaine de révisions simple à tenir.</h2>
-          <p>Le but n’est pas de tout faire. Le but est de faire les bons blocs au bon moment.</p>
-        </div>
-
-        <div className="planner-grid">
-          <article>
-            <span>Lundi</span>
-            <strong>Algèbre et calcul</strong>
-            <p>Diagonalisation, espaces vectoriels, méthodes de calcul rapide.</p>
-          </article>
-          <article>
-            <span>Mercredi</span>
-            <strong>Mécanique et énergie</strong>
-            <p>Modélisation, bilan des forces, théorèmes énergétiques, rédaction.</p>
-          </article>
-          <article>
-            <span>Vendredi</span>
-            <strong>Chimie et synthèse</strong>
-            <p>Équilibres, cinétique, diagrammes et exercices de concours.</p>
-          </article>
-          <article>
-            <span>Dimanche</span>
-            <strong>Correction active</strong>
-            <p>Refaire les erreurs de la semaine et consolider les automatismes.</p>
-          </article>
+        <div className="tool-grid">
+          {contestTools.map((tool) => (
+            <article key={tool.title} className="tool-card">
+              <h3>{tool.title}</h3>
+              <p>{tool.description}</p>
+            </article>
+          ))}
         </div>
       </section>
     </main>
