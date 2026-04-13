@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { InlineMath, BlockMath } from 'react-katex'
+import katex from 'katex'
 import 'katex/dist/katex.min.css'
 import type { CourseSection, CourseBlock } from '../types'
 
@@ -7,6 +7,17 @@ interface CourseViewerProps {
   sections: CourseSection[]
   onMarkRead?: () => void
   isRead?: boolean
+}
+
+// Custom KaTeX components to replace react-katex (React 19 compatibility & strict parsing)
+function InlineMath({ math }: { math: string }) {
+  const html = katex.renderToString(math, { throwOnError: false, displayMode: false })
+  return <span dangerouslySetInnerHTML={{ __html: html }} />
+}
+
+function BlockMath({ math }: { math: string }) {
+  const html = katex.renderToString(math, { throwOnError: false, displayMode: true })
+  return <div dangerouslySetInnerHTML={{ __html: html }} />
 }
 
 // ─── Rendu d'un bloc de contenu ───────────────────────────
