@@ -1,5 +1,6 @@
 import type { Chapter, ChapterProgress } from '../types'
 import { ProgressRing } from './ProgressRing'
+import { CheckCircle2 } from 'lucide-react'
 
 interface ChapterCardProps {
   chapter: Chapter
@@ -26,13 +27,13 @@ export function ChapterCard({ chapter, completion, progress, onOpen }: ChapterCa
         <p className="chapter-card-goal">{chapter.goal}</p>
         <div className="chapter-card-pills">
           <span className={`pill ${progress?.coursRead ? 'pill-done' : 'pill-pending'}`}>
-            {progress?.coursRead ? '✓ Cours' : 'Cours'}
+            {progress?.coursRead ? <><CheckCircle2 size={12} strokeWidth={3} /> Cours</> : 'Cours'}
           </span>
           <span className={`pill ${progress?.quizCompleted ? 'pill-done' : 'pill-pending'}`}>
-            {progress?.quizCompleted ? '✓ Quiz' : 'Quiz'}
+            {progress?.quizCompleted ? <><CheckCircle2 size={12} strokeWidth={3} /> Quiz</> : 'Quiz'}
           </span>
           <span className={`pill ${progress?.chronoCompleted ? 'pill-done' : 'pill-pending'}`}>
-            {progress?.chronoCompleted ? '✓ Chrono' : 'Chrono'}
+            {progress?.chronoCompleted ? <><CheckCircle2 size={12} strokeWidth={3} /> Chrono</> : 'Chrono'}
           </span>
         </div>
       </div>

@@ -2,10 +2,30 @@ import { useState, useEffect } from 'react'
 import type { ProgressStore } from './types'
 
 const STORAGE_KEY = 'equatek_progress'
+const CONFIG_KEY = 'equatek_config'
 
 const defaultProgress: ProgressStore = {}
 
+interface AppConfig {
+  hasOnboarded: boolean
+  userLevel: string | null
+}
+
+const defaultConfig: AppConfig = {
+  hasOnboarded: false,
+  userLevel: null,
+}
+
 export function useProgress() {
+  const [appConfig, setAppConfig] = useState<AppConfig>(() => {
+    try {
+      const stored = localStorage.getItem(CONFIG_KEY)
+      return stored ? JSON.parse(stored) : defaultConfig
+    } catch {
+      return defaultConfig
+    }
+  })
+
   const [progress, setProgress] = useState<ProgressStore>(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY)
@@ -14,6 +34,10 @@ export function useProgress() {
       return defaultProgress
     }
   })
+
+  useEffect(() => {
+    localStorage.setItem(CONFIG_KEY, JSON.stringify(appConfig))
+  }, [appConfig])
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
@@ -75,7 +99,13 @@ export function useProgress() {
     return score
   }
 
+  const completeOnboarding = (level: string) => {
+    setAppConfig({ hasOnboarded: true, userLevel: level })
+  }
+
   return {
+    appConfig,
+    completeOnboarding,
     progress,
     markCoursRead,
     markExercicesDone,

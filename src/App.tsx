@@ -4,6 +4,8 @@ import { chapters, pathways } from './data'
 import { useProgress } from './useProgress'
 import { ChapterCard } from './components/ChapterCard'
 import { ChapterPage } from './components/ChapterPage'
+import { Onboarding } from './components/Onboarding'
+import { Calculator, Atom, FlaskConical, LayoutGrid, Route } from 'lucide-react'
 import type { Pathway, SubjectId } from './types'
 
 type Page = 'home' | 'chapter'
@@ -13,10 +15,10 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>
 }
 
-const SUBJECTS: { id: SubjectId; label: string; emoji: string; available: boolean }[] = [
-  { id: 'maths',    label: 'Maths',    emoji: '∑',  available: true  },
-  { id: 'physique', label: 'Physique', emoji: '⚛️', available: false },
-  { id: 'chimie',   label: 'Chimie',   emoji: '🧪', available: false },
+const SUBJECTS: { id: SubjectId; label: string; icon: React.ReactNode; available: boolean }[] = [
+  { id: 'maths',    label: 'Maths',    icon: <Calculator size={16} strokeWidth={2.5} />, available: true  },
+  { id: 'physique', label: 'Physique', icon: <Atom size={16} strokeWidth={2.5} />,       available: false },
+  { id: 'chimie',   label: 'Chimie',   icon: <FlaskConical size={16} strokeWidth={2.5} />, available: false },
 ]
 
 function parseHash(): { page: Page; chapterId: string | null; subject: SubjectId } {
@@ -49,6 +51,7 @@ export default function App() {
   const [isInstalled, setIsInstalled] = useState(false)
 
   const {
+    appConfig, completeOnboarding,
     progress, markCoursRead, markExercicesDone,
     setQuizResult, resetQuiz, markChronoCompleted, getChapterCompletion,
   } = useProgress()
@@ -143,8 +146,13 @@ export default function App() {
         </div>
       )}
 
-      {/* ── Header ─────────────────────────────────────────── */}
-      <header className="app-header">
+      {/* ── ONBOARDING FLOW ──────────────────────────────────── */}
+      {!appConfig.hasOnboarded ? (
+        <Onboarding onComplete={completeOnboarding} />
+      ) : (
+        <>
+          {/* ── Header ─────────────────────────────────────────── */}
+          <header className="app-header">
         <p className="brand" onClick={goHome} role="button" tabIndex={0}
           onKeyDown={(e) => e.key === 'Enter' && goHome()}>
           Equatek
@@ -165,7 +173,7 @@ export default function App() {
               title={!s.available ? 'Bientôt disponible' : s.label}
               disabled={!s.available}
             >
-              <span className="subject-tab-emoji">{s.emoji}</span>
+              <span className="subject-tab-emoji">{s.icon}</span>
               <span className="subject-tab-label">{s.label}</span>
               {!s.available && <span className="subject-tab-soon">Bientôt</span>}
             </button>
@@ -362,10 +370,7 @@ export default function App() {
         <button type="button"
           className={`bnav-btn ${page === 'home' ? 'active' : ''}`}
           onClick={goHome}>
-          <svg className="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-          </svg>
+          <LayoutGrid size={22} strokeWidth={2} />
           <span>Chapitres</span>
         </button>
 
@@ -373,11 +378,7 @@ export default function App() {
 
         {/* Parcours */}
         <button type="button" className="bnav-btn" onClick={goToPathways}>
-          <svg className="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
-            <line x1="9" y1="3" x2="9" y2="18"/>
-            <line x1="15" y1="6" x2="15" y2="21"/>
-          </svg>
+          <Route size={22} strokeWidth={2} />
           <span>Parcours</span>
         </button>
 
@@ -391,6 +392,8 @@ export default function App() {
           <span>{totalCompletion}%</span>
         </div>
       </nav>
+        </>
+      )}
     </div>
   )
 }

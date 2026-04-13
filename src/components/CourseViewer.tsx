@@ -1,7 +1,16 @@
 import { useState } from 'react'
 import katex from 'katex'
 import 'katex/dist/katex.min.css'
+import { TriangleRight, Ruler, TrendingUp, Activity, Target as TargetIcon, CheckCircle2, ChevronDown, ChevronRight, BookOpenCheck } from 'lucide-react'
 import type { CourseSection, CourseBlock } from '../types'
+
+const ICON_MAP: Record<string, React.ReactNode> = {
+  '📐': <TriangleRight size={18} strokeWidth={2.5} />,
+  '📏': <Ruler size={18} strokeWidth={2.5} />,
+  '📈': <TrendingUp size={18} strokeWidth={2.5} />,
+  '〰️': <Activity size={18} strokeWidth={2.5} />,
+  '🎯': <TargetIcon size={18} strokeWidth={2.5} />
+}
 
 interface CourseViewerProps {
   sections: CourseSection[]
@@ -89,7 +98,7 @@ function renderBlock(block: CourseBlock, idx: number) {
           <div className="cv-example-steps">
             {block.steps?.map((step, i) => (
               <div key={i} className="cv-ex-step">
-                <span className="cv-ex-arrow">›</span>
+                <span className="cv-ex-arrow"><ChevronRight size={16} strokeWidth={3} /></span>
                 <span className="cv-ex-content">
                   {/* Si le step contient \, c'est du LaTeX */}
                   {step.includes('\\') || step.includes('^') || step.includes('_')
@@ -168,7 +177,7 @@ export function CourseViewer({ sections, onMarkRead, isRead }: CourseViewerProps
             onClick={onMarkRead}
             disabled={isRead}
           >
-            {isRead ? '✓ Cours lu' : 'Marquer comme lu'}
+            {isRead ? <><CheckCircle2 size={16} strokeWidth={3} /> Cours lu</> : 'Marquer comme lu'}
           </button>
         )}
       </div>
@@ -185,13 +194,13 @@ export function CourseViewer({ sections, onMarkRead, isRead }: CourseViewerProps
                 onClick={() => toggle(section.id)}
                 aria-expanded={isOpen}
               >
-                <span className="cv-section-icon">{section.icon}</span>
+                <span className="cv-section-icon">{ICON_MAP[section.icon] || <TriangleRight size={18} strokeWidth={2.5} />}</span>
                 <span className="cv-section-num">
                   {String(si + 1).padStart(2, '0')}
                 </span>
                 <span className="cv-section-title">{section.title}</span>
                 <span className={`cv-section-chevron ${isOpen ? 'cv-section-chevron--open' : ''}`}>
-                  ›
+                  <ChevronDown size={18} strokeWidth={3} />
                 </span>
               </button>
 
@@ -213,7 +222,7 @@ export function CourseViewer({ sections, onMarkRead, isRead }: CourseViewerProps
             className="cv-mark-btn cv-mark-btn--lg"
             onClick={onMarkRead}
           >
-            ✓ J'ai terminé ce cours
+            <BookOpenCheck size={18} strokeWidth={3} /> J'ai terminé ce cours
           </button>
         </div>
       )}

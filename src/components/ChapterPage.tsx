@@ -6,6 +6,7 @@ import { ChronoMode } from './ChronoMode'
 import { SubjectViewer } from './SubjectViewer'
 import { CourseViewer } from './CourseViewer'
 import { equatekSubjects } from '../subjects'
+import { BookOpen, Pencil, BrainCircuit, Target, Zap, Library, Timer, FileText, ChevronLeft, CheckCircle2 } from 'lucide-react'
 
 interface ChapterPageProps {
   chapter: Chapter
@@ -21,28 +22,28 @@ interface ChapterPageProps {
 
 type SubPage = 'overview' | 'cours' | 'quiz' | 'chrono' | 'subject'
 
-const RESOURCE_CONFIGS: { key: ResourceKey; label: string; icon: string; color: string }[] = [
-  { key: 'cours',     label: 'Cours',          icon: '📖', color: '#7c9eff' },
-  { key: 'exercices', label: 'Exercices',       icon: '✏️', color: '#ffd190' },
-  { key: 'quiz',      label: 'Quiz',            icon: '🧠', color: '#c084fc' },
-  { key: 'bac',       label: 'Sujets Bac',      icon: '🎯', color: '#5cffb4' },
-  { key: 'equatek',   label: 'Sujets Equatek',  icon: '⚡', color: '#ff9f7a' },
+const RESOURCE_CONFIGS: { key: ResourceKey; label: string; icon: React.ReactNode; color: string }[] = [
+  { key: 'cours',     label: 'Cours',          icon: <BookOpen size={18} strokeWidth={2.5} />, color: '#7c9eff' },
+  { key: 'exercices', label: 'Exercices',       icon: <Pencil size={18} strokeWidth={2.5} />, color: '#ffd190' },
+  { key: 'quiz',      label: 'Quiz',            icon: <BrainCircuit size={18} strokeWidth={2.5} />, color: '#c084fc' },
+  { key: 'bac',       label: 'Sujets Bac',      icon: <Target size={18} strokeWidth={2.5} />, color: '#5cffb4' },
+  { key: 'equatek',   label: 'Sujets Equatek',  icon: <Zap size={18} strokeWidth={2.5} />, color: '#ff9f7a' },
 ]
 
 // Configs sans la carte Cours (utilisé quand un cours inline est disponible)
-const RESOURCE_CONFIGS_NO_COURS: { key: ResourceKey; label: string; icon: string; color: string }[] = [
-  { key: 'exercices', label: 'Exercices',      icon: '✏️', color: '#ffd190' },
-  { key: 'quiz',      label: 'Quiz',           icon: '🧠', color: '#c084fc' },
-  { key: 'bac',       label: 'Sujets Bac',     icon: '🎯', color: '#5cffb4' },
-  { key: 'equatek',   label: 'Sujets Equatek', icon: '⚡', color: '#ff9f7a' },
+const RESOURCE_CONFIGS_NO_COURS: { key: ResourceKey; label: string; icon: React.ReactNode; color: string }[] = [
+  { key: 'exercices', label: 'Exercices',      icon: <Pencil size={18} strokeWidth={2.5} />, color: '#ffd190' },
+  { key: 'quiz',      label: 'Quiz',           icon: <BrainCircuit size={18} strokeWidth={2.5} />, color: '#c084fc' },
+  { key: 'bac',       label: 'Sujets Bac',     icon: <Target size={18} strokeWidth={2.5} />, color: '#5cffb4' },
+  { key: 'equatek',   label: 'Sujets Equatek', icon: <Zap size={18} strokeWidth={2.5} />, color: '#ff9f7a' },
 ]
 
-const SUBNAV_BASE: Record<SubPage, string> = {
-  cours:    '📖 Cours',
-  overview: '📚 Ressources',
-  quiz:     '🧠 Quiz',
-  chrono:   '⏱️ Chrono',
-  subject:  '📄 Sujets Equatek',
+const SUBNAV_BASE: Record<SubPage, { text: string; icon: React.ReactNode }> = {
+  cours:    { text: 'Cours', icon: <BookOpen size={14} strokeWidth={2.5} /> },
+  overview: { text: 'Ressources', icon: <Library size={14} strokeWidth={2.5} /> },
+  quiz:     { text: 'Quiz', icon: <BrainCircuit size={14} strokeWidth={2.5} /> },
+  chrono:   { text: 'Chrono', icon: <Timer size={14} strokeWidth={2.5} /> },
+  subject:  { text: 'Sujets', icon: <FileText size={14} strokeWidth={2.5} /> },
 }
 
 export function ChapterPage({
@@ -85,7 +86,7 @@ export function ChapterPage({
   return (
     <div className="chapter-page">
       <button className="back-btn" onClick={onBack} type="button">
-        ← Retour aux chapitres
+        <ChevronLeft size={16} strokeWidth={3} /> Retour aux chapitres
       </button>
 
       {/* En-tête chapitre */}
@@ -120,7 +121,8 @@ export function ChapterPage({
             onClick={() => setSubPage(p)}
             className={`chapter-subnav-btn ${subPage === p ? 'active' : ''}`}
           >
-            {SUBNAV_BASE[p]}
+            {SUBNAV_BASE[p].icon}
+            <span>{SUBNAV_BASE[p].text}</span>
           </button>
         ))}
       </div>
@@ -185,9 +187,9 @@ export function ChapterPage({
                         onClick={hasDoc ? () => openSubject(subKey!) : undefined}
                         style={hasDoc ? { cursor: 'pointer' } : {}}
                       >
-                        <span className="res-bullet" style={{ color: rc.color }}>›</span>
+                        <ChevronLeft className="res-bullet" size={14} strokeWidth={3} style={{ color: rc.color, transform: 'rotate(180deg)' }} />
                         <span className="res-label-text">{item.label}</span>
-                        {hasDoc && <span className="res-open-badge">Ouvrir →</span>}
+                        {hasDoc && <span className="res-open-badge">Ouvrir <ChevronLeft size={12} strokeWidth={3} style={{ transform: 'rotate(180deg)', marginLeft: 2 }} /></span>}
                         {isSoon && <span className="res-soon-inline">À venir</span>}
                       </li>
                     )
@@ -201,7 +203,7 @@ export function ChapterPage({
                     type="button"
                     onClick={isCours ? onMarkCoursRead : onMarkExercicesDone}
                   >
-                    Marquer comme fait ✓
+                    Marquer comme fait <CheckCircle2 size={16} />
                   </button>
                 )}
 
@@ -226,7 +228,7 @@ export function ChapterPage({
             /* Quiz déjà complété → écran de résultat propre */
             <div className="quiz-already-done">
               <div className="quiz-already-icon">
-                {(progress.quizScore ?? 0) >= 70 ? '🏆' : '💪'}
+                {progress.quizScore ?? 0 >= 70 ? <Target size={32} color="#5cffb4" /> : <BrainCircuit size={32} color="#ffd190" />}
               </div>
               <h3>Quiz déjà réalisé</h3>
               <p className="quiz-already-score">
@@ -287,10 +289,10 @@ export function ChapterPage({
           ) : (
             /* Sujet demandé inexistant — ne devrait pas arriver */
             <div className="subject-missing">
-              <span>📄</span>
+              <FileText size={48} strokeWidth={1} style={{ opacity: 0.5, marginBottom: 12 }} />
               <p>Ce sujet n'est pas encore disponible.</p>
               <button className="button button-soft" onClick={() => setSubPage('overview')} type="button">
-                ← Retour
+                <ChevronLeft size={16} strokeWidth={2} /> Retour
               </button>
             </div>
           )}

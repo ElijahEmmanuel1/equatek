@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { Timer, Play, Pause, RotateCcw, AlertTriangle } from 'lucide-react'
 
 interface ChronoModeProps {
   duration: number // minutes
@@ -46,7 +47,7 @@ export function ChronoMode({ duration, chapterTitle, onComplete }: ChronoModePro
   if (finished) {
     return (
       <div className="chrono-done">
-        <span className="chrono-done-emoji">⏱️</span>
+        <span className="chrono-done-emoji"><Timer size={48} strokeWidth={2.5} color="#ffd190" /></span>
         <h3>Temps écoulé !</h3>
         <p>Sujet terminé — {duration} min de simulation Bac.</p>
         <p className="chrono-done-tip">Corrige maintenant ta copie avec le barème officiel.</p>
@@ -87,11 +88,11 @@ export function ChronoMode({ duration, chapterTitle, onComplete }: ChronoModePro
       <div className="chrono-controls">
         {!running ? (
           <button className="button button-strong" onClick={() => setRunning(true)} type="button">
-            {seconds === totalSeconds ? '▶ Démarrer' : '▶ Reprendre'}
+            <Play size={16} strokeWidth={3} /> {seconds === totalSeconds ? 'Démarrer' : 'Reprendre'}
           </button>
         ) : (
           <button className="button button-soft" onClick={() => setRunning(false)} type="button">
-            ⏸ Pause
+            <Pause size={16} strokeWidth={3} /> Pause
           </button>
         )}
         <button
@@ -99,12 +100,12 @@ export function ChronoMode({ duration, chapterTitle, onComplete }: ChronoModePro
           onClick={() => { setSeconds(totalSeconds); setRunning(false) }}
           type="button"
         >
-          ↺ Reset
+          <RotateCcw size={16} strokeWidth={3} /> Reset
         </button>
       </div>
 
       {urgent && (
-        <p className="chrono-urgent">⚠️ Moins d'une minute — terminez vos phrases !</p>
+        <p className="chrono-urgent"><AlertTriangle size={16} style={{ display: 'inline', verticalAlign: 'text-bottom' }} /> Moins d'une minute — terminez vos phrases !</p>
       )}
     </div>
   )

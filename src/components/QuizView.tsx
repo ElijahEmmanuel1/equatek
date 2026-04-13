@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { PartyPopper, Dumbbell, CheckCircle2, XCircle, ArrowRight } from 'lucide-react'
 import type { QuizQuestion } from '../types'
 
 interface QuizViewProps {
@@ -46,7 +47,9 @@ export function QuizView({ questions, onComplete }: QuizViewProps) {
     const isgood = score >= 70
     return (
       <div className="quiz-done">
-        <span className="quiz-done-emoji">{isgood ? '🎉' : '💪'}</span>
+        <span className="quiz-done-emoji">
+          {isgood ? <PartyPopper size={48} color="#5cffb4" /> : <Dumbbell size={48} color="#ffd190" />}
+        </span>
         <h3>Quiz terminé !</h3>
         <p className="quiz-done-score" style={{ color: isgood ? '#5cffb4' : '#ffd190' }}>
           {correct}/{total} bonnes réponses — {score}%
@@ -86,7 +89,13 @@ export function QuizView({ questions, onComplete }: QuizViewProps) {
       </div>
       {confirmed && (
         <div className="quiz-explanation">
-          <strong>{selected === question.correct ? '✓ Correct !' : '✗ Incorrect'}</strong>
+          <strong>
+            {selected === question.correct ? (
+              <><CheckCircle2 size={16} strokeWidth={3} className="inline-icon" /> Correct !</>
+            ) : (
+              <><XCircle size={16} strokeWidth={3} className="inline-icon" /> Incorrect</>
+            )}
+          </strong>
           <p>{question.explanation}</p>
         </div>
       )}
@@ -101,7 +110,7 @@ export function QuizView({ questions, onComplete }: QuizViewProps) {
         </button>
       ) : (
         <button className="quiz-action button button-strong" onClick={handleNext} type="button">
-          {currentIdx + 1 < total ? 'Question suivante →' : 'Voir le résultat'}
+          {currentIdx + 1 < total ? <>Question suivante <ArrowRight size={16} strokeWidth={3} /></> : 'Voir le résultat'}
         </button>
       )}
     </div>

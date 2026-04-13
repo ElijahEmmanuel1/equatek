@@ -1075,3 +1075,146 @@ button { font-family: inherit; cursor: pointer; }
   border-top: 1px solid var(--border);
 }
 
+
+/* ─── ONBOARDING FLOW ─────────────────────────────────────── */
+.onboarding-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.onboarding-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 480px;
+  width: 100%;
+  z-index: 10;
+}
+
+.onboarding-icon-wrap {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+  box-shadow: 0 0 30px rgba(100, 116, 255, 0.15);
+  animation: float 4s ease-in-out infinite;
+}
+
+.onboarding-hero-icon {
+  color: var(--accent);
+}
+
+.onboarding-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #fff, #a0b6ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.onboarding-desc {
+  font-size: 1.1rem;
+  color: var(--text-2);
+  line-height: 1.5;
+  margin-bottom: 40px;
+}
+
+.level-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.level-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.level-card:hover {
+  background: var(--surface-2);
+  border-color: var(--border-hover);
+}
+
+.level-card.active {
+  background: rgba(100, 116, 255, 0.1);
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent), 0 8px 20px rgba(100, 116, 255, 0.15);
+}
+
+.level-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.level-card-main {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-1);
+}
+
+.level-card-sub {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.level-card-check {
+  color: var(--accent);
+}
+
+.onboarding-hint {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  margin-top: 24px;
+}
+
+.onboarding-btn {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 999px;
+  height: 52px;
+  font-size: 1.1rem;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@media (max-width: 600px) {
+  .level-grid { grid-template-columns: 1fr; }
+  .onboarding-title { font-size: 2rem; }
+}
+
