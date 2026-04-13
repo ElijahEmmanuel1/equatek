@@ -144,23 +144,40 @@ export default function App() {
 
         {/* ── PAGE ACCUEIL ─────────────────────────────────── */}
         {page === 'home' && (
-          <div className="home-page">
+          <div className="home-page page-enter">
 
             {/* Stats */}
-            <div className="stats-strip">
-              <div className="stat-card">
-                <span className="stat-val">{validatedCount}</span>
-                <span className="stat-lbl">chapitres validés</span>
+            {isFirstVisit ? (
+              <div className="stats-strip stats-strip--empty">
+                <div className="stat-card">
+                  <span className="stat-val">{chapters.length}</span>
+                  <span className="stat-lbl">chapitres disponibles</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-val">3</span>
+                  <span className="stat-lbl">activités par chapitre</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-val">∞</span>
+                  <span className="stat-lbl">tentatives quiz</span>
+                </div>
               </div>
-              <div className="stat-card">
-                <span className="stat-val">{quizDoneCount}</span>
-                <span className="stat-lbl">quiz réussis</span>
+            ) : (
+              <div className="stats-strip">
+                <div className="stat-card">
+                  <span className="stat-val">{validatedCount}</span>
+                  <span className="stat-lbl">chapitres validés</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-val">{quizDoneCount}</span>
+                  <span className="stat-lbl">quiz réussis</span>
+                </div>
+                <div className="stat-card">
+                  <span className="stat-val">{chronoDoneCount}</span>
+                  <span className="stat-lbl">chronos effectués</span>
+                </div>
               </div>
-              <div className="stat-card">
-                <span className="stat-val">{chronoDoneCount}</span>
-                <span className="stat-lbl">chronos effectués</span>
-              </div>
-            </div>
+            )}
 
             {/* CTA première visite */}
             {isFirstVisit && (
@@ -265,17 +282,19 @@ export default function App() {
 
         {/* ── PAGE CHAPITRE ─────────────────────────────────── */}
         {page === 'chapter' && activeChapter && (
-          <ChapterPage
-            chapter={activeChapter}
-            progress={progress[activeChapter.id]}
-            completion={getChapterCompletion(activeChapter.id)}
-            onMarkCoursRead={() => markCoursRead(activeChapter.id)}
-            onMarkExercicesDone={() => markExercicesDone(activeChapter.id)}
-            onQuizComplete={(score) => setQuizResult(activeChapter.id, score)}
-            onResetQuiz={() => resetQuiz(activeChapter.id)}
-            onChronoComplete={() => markChronoCompleted(activeChapter.id)}
-            onBack={goHome}
-          />
+          <div className="page-enter">
+            <ChapterPage
+              chapter={activeChapter}
+              progress={progress[activeChapter.id]}
+              completion={getChapterCompletion(activeChapter.id)}
+              onMarkCoursRead={() => markCoursRead(activeChapter.id)}
+              onMarkExercicesDone={() => markExercicesDone(activeChapter.id)}
+              onQuizComplete={(score) => setQuizResult(activeChapter.id, score)}
+              onResetQuiz={() => resetQuiz(activeChapter.id)}
+              onChronoComplete={() => markChronoCompleted(activeChapter.id)}
+              onBack={goHome}
+            />
+          </div>
         )}
       </main>
 
@@ -284,12 +303,19 @@ export default function App() {
         <button type="button"
           className={`bnav-btn ${page === 'home' ? 'active' : ''}`}
           onClick={goHome}>
-          <span className="bnav-icon">📚</span>
+          <svg className="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
           <span>Chapitres</span>
         </button>
         <div className="bnav-sep" />
         <button type="button" className="bnav-btn" onClick={goToPathways}>
-          <span className="bnav-icon">🗺️</span>
+          <svg className="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
+            <line x1="9" y1="3" x2="9" y2="18"/>
+            <line x1="15" y1="6" x2="15" y2="21"/>
+          </svg>
           <span>Parcours</span>
         </button>
         <div className="bnav-sep" />
