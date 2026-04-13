@@ -21,7 +21,7 @@ export const chap1Cours: CourseSection[] = [
       {
         type: 'table',
         content: 'Tableau des dérivées usuelles à connaître par coeur.',
-        headers: ['Fonction f(x)', "Dérivée f'(x)", 'Domaine'],
+        headers: ['\\text{Fonction } f(x)', "\\text{Dérivée } f'(x)", '\\text{Domaine}'],
         rows: [
           ['k \\; (\\text{constante})', '0', '\\mathbb{R}'],
           ['x^n \\; (n \\in \\mathbb{Z})', 'n\\,x^{n-1}', '\\mathbb{R}'],
@@ -66,7 +66,7 @@ export const chap1Cours: CourseSection[] = [
           "(3x^4)' = 12x^3",
           "(-2x^2)' = -4x",
           "(5x)' = 5 \\text{ et } (-1)' = 0",
-          "\\textbf{Résultat :}\\; f'(x) = 12x^3 - 4x + 5",
+          "\\text{\\textbf{Résultat :}}\\; f'(x) = 12x^3 - 4x + 5",
         ],
       },
       {
@@ -107,7 +107,7 @@ export const chap1Cours: CourseSection[] = [
         steps: [
           'f(2) = 4 - 6 = -2 \\;\\Rightarrow\\; \\text{point de passage}\\; (2,\\,-2)',
           "f'(x) = 2x - 3 \\;\\Rightarrow\\; f'(2) = 1",
-          '\\textbf{Tangente :}\\; y = 1 \\cdot (x - 2) - 2 = x - 4',
+          '\\text{\\textbf{Tangente :}}\\; y = 1 \\cdot (x - 2) - 2 = x - 4',
         ],
       },
     ],
@@ -129,10 +129,10 @@ export const chap1Cours: CourseSection[] = [
       {
         type: 'table',
         content: "Règle du signe de f' et variations de f.",
-        headers: ["Signe de f'(x)", 'Variation de f', 'Conclusion'],
+        headers: ["\\text{Signe de } f'(x)", '\\text{Variation de } f', '\\text{Conclusion}'],
         rows: [
-          ["f'(x) > 0", 'f \\text{ croissante}', '\\nearrow'],
-          ["f'(x) < 0", 'f \\text{ décroissante}', '\\searrow'],
+          ["f'(x) > 0", '\\text{Croissante}', '\\nearrow'],
+          ["f'(x) < 0", '\\text{Décroissante}', '\\searrow'],
           [
             "f'(x_0) = 0 \\text{ et change de signe}",
             '\\text{changement de variation}',
@@ -194,7 +194,7 @@ export const chap1Cours: CourseSection[] = [
       {
         type: 'table',
         content: "Signe de f'' et nature de la courbure.",
-        headers: ["Signe de f''(x)", 'Nom', 'Image graphique'],
+        headers: ["\\text{Signe de } f''(x)", '\\text{Nom}', '\\text{Image graphique}'],
         rows: [
           ["f''(x) > 0", '\\text{Convexe (sourit)}', '\\cup'],
           ["f''(x) < 0", '\\text{Concave (pleure)}', '\\cap'],
