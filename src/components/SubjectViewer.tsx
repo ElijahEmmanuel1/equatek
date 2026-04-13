@@ -1,4 +1,4 @@
-import { BlockMath, InlineMath } from 'react-katex'
+import katex from 'katex'
 import 'katex/dist/katex.min.css'
 import type { EquatekSubject, SubjectQuestion } from '../subjects'
 import { useState } from 'react'
@@ -6,6 +6,16 @@ import { useState } from 'react'
 interface SubjectViewerProps {
   subject: EquatekSubject
   onClose: () => void
+}
+
+function InlineMath({ math }: { math: string }) {
+  const html = katex.renderToString(math, { throwOnError: false, displayMode: false })
+  return <span dangerouslySetInnerHTML={{ __html: html }} />
+}
+
+function BlockMath({ math }: { math: string }) {
+  const html = katex.renderToString(math, { throwOnError: false, displayMode: true })
+  return <div dangerouslySetInnerHTML={{ __html: html }} />
 }
 
 /* Render a string that may contain $inline$ or $$block$$ math */
