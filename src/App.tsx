@@ -5,7 +5,7 @@ import { useProgress } from './useProgress'
 import { ChapterCard } from './components/ChapterCard'
 import { ChapterPage } from './components/ChapterPage'
 import { Onboarding } from './components/Onboarding'
-import { Calculator, Atom, FlaskConical, LayoutGrid, Route, ArrowRight, PlayCircle } from 'lucide-react'
+import { Calculator, Atom, FlaskConical, LayoutGrid, Route, PlayCircle } from 'lucide-react'
 import type { Pathway, SubjectId } from './types'
 
 type Page = 'home' | 'chapter'
