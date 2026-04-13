@@ -1,5 +1,6 @@
 import type { Chapter, Pathway } from './types'
 import { chap1Cours } from './content/maths/chap1-cours'
+import { chap1ExercisesContent } from './content/maths/chap1-exercices'
 
 export const chapters: Chapter[] = [
   {
@@ -15,9 +16,9 @@ export const chapters: Chapter[] = [
         { label: 'Erreurs fréquentes à éviter', comingSoon: true },
       ],
       exercices: [
-        { label: '18 exercices progressifs', comingSoon: true },
-        { label: '6 problèmes type Bac', comingSoon: true },
-        { label: '3 entraînements chrono', comingSoon: true },
+        { label: 'Recueil complet — 50 exercices structurés' },
+        { label: 'Partie 1 à 4 — dérivation, optimisation, expert' },
+        { label: 'Rendu mathématique dans l’onglet Exercices' },
       ],
       quiz: [
         { label: 'Quiz notions essentielles' },
@@ -80,6 +81,7 @@ export const chapters: Chapter[] = [
     ],
     chronoDuration: 25,
     courseContent: chap1Cours,
+    exercicesContent: chap1ExercisesContent,
   },
   {
     id: 'chap2',

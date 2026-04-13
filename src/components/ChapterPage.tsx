@@ -20,7 +20,7 @@ interface ChapterPageProps {
   onBack: () => void
 }
 
-type SubPage = 'overview' | 'cours' | 'quiz' | 'chrono' | 'subject'
+type SubPage = 'overview' | 'cours' | 'exercices' | 'quiz' | 'chrono' | 'subject'
 
 const RESOURCE_CONFIGS: { key: ResourceKey; label: string; icon: React.ReactNode; color: string }[] = [
   { key: 'cours',     label: 'Cours',          icon: <BookOpen size={18} strokeWidth={2.5} />, color: '#7c9eff' },
@@ -40,6 +40,7 @@ const RESOURCE_CONFIGS_NO_COURS: { key: ResourceKey; label: string; icon: React.
 
 const SUBNAV_BASE: Record<SubPage, { text: string; icon: React.ReactNode }> = {
   cours:    { text: 'Cours', icon: <BookOpen size={14} strokeWidth={2.5} /> },
+  exercices: { text: 'Exercices', icon: <Pencil size={14} strokeWidth={2.5} /> },
   overview: { text: 'Ressources', icon: <Library size={14} strokeWidth={2.5} /> },
   quiz:     { text: 'Quiz', icon: <BrainCircuit size={14} strokeWidth={2.5} /> },
   chrono:   { text: 'Chrono', icon: <Timer size={14} strokeWidth={2.5} /> },
@@ -58,15 +59,20 @@ export function ChapterPage({
   onBack,
 }: ChapterPageProps) {
   const hasCours = Boolean(chapter.courseContent?.length)
-  const [subPage, setSubPage] = useState<SubPage>(hasCours ? 'cours' : 'overview')
+  const hasExercises = Boolean(chapter.exercicesContent?.length)
+  const [subPage, setSubPage] = useState<SubPage>(hasCours ? 'cours' : hasExercises ? 'exercices' : 'overview')
   const [activeSubjectKey, setActiveSubjectKey] = useState<string>('A1')
   /* redoingQuiz contrôle l'affichage du quiz après un "Refaire" */
   const [redoingQuiz, setRedoingQuiz] = useState(false)
 
   // Construire la liste des onglets selon si un cours inline existe
   const subnavItems: SubPage[] = hasCours
-    ? ['cours', 'overview', 'quiz', 'chrono', 'subject']
-    : ['overview', 'quiz', 'chrono', 'subject']
+    ? hasExercises
+      ? ['cours', 'exercices', 'overview', 'quiz', 'chrono', 'subject']
+      : ['cours', 'overview', 'quiz', 'chrono', 'subject']
+    : hasExercises
+      ? ['exercices', 'overview', 'quiz', 'chrono', 'subject']
+      : ['overview', 'quiz', 'chrono', 'subject']
 
   const openSubject = (key: string) => {
     setActiveSubjectKey(key)
@@ -134,6 +140,17 @@ export function ChapterPage({
             sections={chapter.courseContent}
             isRead={progress?.coursRead}
             onMarkRead={onMarkCoursRead}
+          />
+        </div>
+      )}
+
+      {/* ── Vue : Exercices inline ──────────────────────────── */}
+      {subPage === 'exercices' && chapter.exercicesContent && (
+        <div className="subpage-wrap">
+          <CourseViewer
+            sections={chapter.exercicesContent}
+            isRead={progress?.exercicesDone}
+            onMarkRead={onMarkExercicesDone}
           />
         </div>
       )}

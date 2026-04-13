@@ -1,0 +1,156 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage[a4paper, top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
+\usepackage{fontspec}
+
+\usepackage[french, bidi=basic, provide=*]{babel}
+
+\babelprovide[import, onchar=ids fonts]{french}
+\babelprovide[import, onchar=ids fonts]{english}
+
+\babelfont{rm}{Noto Sans}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{multicol}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\Huge \textbf{\textcolor{cyan}{Equa}\textcolor{magenta}{TeK}} \Large \textbf{\textcolor{white}{|} \textcolor{green}{Entraînement Intensif}}}
+\renewcommand{\headrulewidth}{0pt}
+\setlength{\headheight}{30pt}
+
+\begin{document}
+\pagecolor{black}
+\color{white}
+
+\begin{center}
+    \Large \textbf{\textcolor{yellow}{Recueil Ultime : 50 Exercices sur la Dérivation}} \\
+    \vspace{0.2cm}
+    \normalsize \textit{Terminale Spécialité \& Expertes : Des bases jusqu'aux concours CPGE}
+\end{center}
+
+\vspace{0.3cm}
+
+\begin{center}
+\fcolorbox{red}{black}{
+    \parbox{0.9\linewidth}{
+        \centering
+        \vspace{0.1cm}
+        \textbf{\textcolor{red}{Niveaux de difficulté}} \\
+        \textcolor{cyan}{Niveau 1 (1 à 15)} : Gammes et calculs (Acquisition des réflexes). \\
+        \textcolor{green}{Niveau 2 (16 à 30)} : Études complètes et TVI (Standard Bac). \\
+        \textcolor{yellow}{Niveau 3 (31 à 40)} : Optimisation et Modélisation (Problèmes ouverts). \\
+        \textcolor{magenta}{Niveau 4 (41 à 50)} : Expert et Prépa (Démonstrations, suites de fonctions, dérivées n-ièmes).
+        \vspace{0.1cm}
+    }
+}
+\end{center}
+
+\vspace{0.5cm}
+\Large
+\textbf{\textcolor{cyan}{Partie 1 : Gammes, Calculs et Tangentes}}
+\normalsize
+\vspace{0.2cm}
+
+\begin{multicols}{2}
+\begin{enumerate}
+    \item Calculer la dérivée de $\displaystyle f(x) = 3x^4 - 5x^2 + 2x - \pi$.
+    \item Calculer la dérivée de $\displaystyle g(x) = \frac{2x - 1}{x + 3}$ sur $\mathbb{R} \setminus \{-3\}$.
+    \item Calculer la dérivée de $\displaystyle h(x) = (x^2 + 1)e^{2x}$.
+    \item Calculer la dérivée de $\displaystyle k(x) = \ln(x^2 - 4x + 5)$.
+    \item Calculer la dérivée de $\displaystyle m(x) = \sqrt{e^x + 1}$.
+    \item Calculer la dérivée de $\displaystyle p(x) = \cos(3x) \sin(2x)$.
+    \item Calculer la dérivée de $\displaystyle q(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$.
+    \item Déterminer l'équation de la tangente à la courbe de $f(x) = x^3 - 2x$ au point d'abscisse $x=1$.
+    \item Existe-t-il des tangentes à la courbe de $g(x) = \frac{x}{x-1}$ qui sont parallèles à la droite d'équation $y = -x$ ?
+    \item Démontrer que la courbe de $h(x) = \ln(x)$ n'admet aucune tangente passant par l'origine du repère.
+    \item Étudier la dérivabilité de $f(x) = x\sqrt{x}$ en $0$.
+    \item Soit $f(x) = (ax+b)e^{-x}$. Déterminer $a$ et $b$ pour que la courbe de $f$ passe par $A(0; 2)$ et admette une tangente horizontale en $x=1$.
+    \item Déterminer les points de la courbe de $f(x) = x^3 - 3x^2 + 3x$ où la tangente est horizontale.
+    \item Calculer la dérivée seconde de $f(x) = \ln(1+e^x)$.
+    \item Soit $f(x) = \sin^2(x) + \cos^2(x)$. Calculer $f'(x)$ et retrouver une propriété trigonométrique bien connue.
+\end{enumerate}
+\end{multicols}
+
+\vspace{0.5cm}
+\Large
+\textbf{\textcolor{green}{Partie 2 : Études Complètes et Convexité}}
+\normalsize
+\vspace{0.2cm}
+
+\begin{enumerate}
+    \setcounter{enumi}{15}
+    \item Soit $f(x) = x - \ln(x)$. Dresser le tableau de variations complet de $f$ sur $]0 ; +\infty[$. En déduire le signe de $f$.
+    \item Soit $g(x) = (x^2 - 2x + 2)e^{-x}$. Démontrer que $g$ est strictement décroissante sur $[0 ; +\infty[$.
+    \item Étudier la convexité de $h(x) = x^4 - 6x^3 + 12x^2 - x + 1$. Déterminer les coordonnées de ses points d'inflexion.
+    \item Démontrer que l'équation $e^x = 3 - x$ admet une unique solution $\alpha$ sur $\mathbb{R}$. Donner un encadrement de $\alpha$ à $10^{-2}$.
+    \item Soit $f(x) = \frac{2\ln x}{x}$. Démontrer que la fonction admet un maximum global en un point à préciser.
+    \item On considère $f(x) = e^{-x^2/2}$ (courbe de Gauss). Étudier ses variations, sa convexité et tracer l'allure de sa courbe.
+    \item Soit $f(x) = x^3 - 3x + 1$. Déterminer le nombre de solutions de l'équation $f(x) = 0$ sur $\mathbb{R}$.
+    \item Étudier les variations de la fonction $f(x) = \ln\left(\frac{x+1}{x-1}\right)$ sur $]1 ; +\infty[$.
+    \item Soient les courbes $\mathcal{C}_1 : y = e^x$ et $\mathcal{C}_2 : y = x^2+1$. Démontrer qu'elles admettent une tangente commune au point d'abscisse $0$.
+    \item On pose $f_k(x) = x^k e^{-x}$ pour $k \in \mathbb{N}^*$. Démontrer que pour tout $k$, $f_k$ admet un maximum local en $x=k$.
+    \item Étudier la position relative des courbes $\mathcal{C}_f : y = \ln(x)$ et $\mathcal{C}_g : y = x - 1$.
+    \item Démontrer l'inégalité suivante pour tout $x > 0$ : $\displaystyle x - \frac{x^2}{2} < \ln(1+x) < x$.
+    \item Soit $f(x) = \sqrt{x^2 + x + 1} - x$. Calculer $\lim_{x \to +\infty} f(x)$. La fonction admet-elle un minimum ?
+    \item Démontrer que si une fonction polynomiale de degré 3 admet trois racines réelles distinctes, alors elle admet exactement un point d'inflexion situé au milieu de ses deux extremums locaux.
+    \item Soit $f(x) = x \ln(x) - x$. Démontrer que $f$ établit une bijection de $[1 ; +\infty[$ sur un intervalle à préciser.
+\end{enumerate}
+
+\newpage
+
+\Large
+\textbf{\textcolor{yellow}{Partie 3 : Problèmes d'Optimisation \& Modélisation}}
+\normalsize
+\vspace{0.2cm}
+
+\begin{enumerate}
+    \setcounter{enumi}{30}
+    \item \textbf{La Boîte sans couvercle :} On dispose d'un carton carré de $20\text{ cm}$ de côté. On découpe des carrés de côté $x$ aux quatre coins pour plier les bords et former une boîte sans couvercle. Déterminer $x$ pour que le volume de la boîte soit maximal.
+    \item \textbf{Le Cylindre optimal :} Un fabricant veut concevoir une canette cylindrique de volume $V = 33\text{ cL}$. Déterminer le rayon $R$ et la hauteur $H$ minimisant la surface de métal utilisée.
+    \item \textbf{Distance minimale :} Soit $\mathcal{P}$ la parabole d'équation $y = x^2$ et le point $A(0 ; 3)$. Quel est le point de la parabole le plus proche de $A$ ?
+    \item \textbf{Génie civil :} Deux villes A et B sont situées du même côté d'une autoroute rectiligne. On veut construire une bretelle d'accès sur l'autoroute au point $M$ pour minimiser la distance totale $AM + MB$. Déterminer la position du point $M$ en utilisant la dérivation.
+    \item \textbf{Économie :} Une entreprise fabrique $q$ objets. Le coût de production est $C(q) = 0{,}1q^2 + 10q + 1500$. Chaque objet est vendu $50$ euros. Déterminer la quantité $q$ à produire pour maximiser le bénéfice.
+    \item \textbf{L'Échelle :} Une échelle de longueur $L$ s'appuie contre un mur vertical et touche le sol horizontal. L'échelle doit passer par-dessus une caisse cubique de $1\text{ m}$ de côté collée au mur. Quelle est la longueur minimale de l'échelle ?
+    \item \textbf{Lois de Snell-Descartes :} Un rayon lumineux part d'un point $A$ dans l'air (vitesse $c$), traverse l'eau (vitesse $v$) en un point $M$ à la surface, et atteint le point $B$. En appliquant le principe de Fermat (le temps de parcours est minimal), retrouver la loi de la réfraction par dérivation.
+    \item \textbf{Pharmacocinétique :} La concentration d'un médicament dans le sang au temps $t$ est $C(t) = \frac{5t}{t^2 + 4}$. À quel instant la concentration est-elle maximale ?
+    \item \textbf{Aérodynamisme :} La résistance de l'air sur un véhicule est modélisée par $R(v) = av^2 + \frac{b}{v}$. À quelle vitesse la résistance est-elle minimale ?
+    \item \textbf{Triangle inscrit :} Déterminer les dimensions du triangle isocèle d'aire maximale que l'on peut inscrire dans un cercle de rayon $R$.
+\end{enumerate}
+
+\vspace{0.5cm}
+\Large
+\textbf{\textcolor{magenta}{Partie 4 : Niveau Expert \& Concours CPGE (Grande Difficulté)}}
+\normalsize
+\vspace{0.2cm}
+
+\begin{center}
+\fcolorbox{magenta}{black}{
+    \parbox{0.9\linewidth}{
+        \centering
+        \vspace{0.1cm}
+        \textit{Ces exercices font appel à des concepts poussés : dérivées successives, démonstrations par récurrence, théorèmes généraux (Rolle, Accroissements finis) et équations fonctionnelles.}
+        \vspace{0.1cm}
+    }
+}
+\end{center}
+
+\begin{enumerate}
+    \setcounter{enumi}{40}
+    \item \textbf{Formule de Leibniz :} Soit $f(x) = x^2 e^x$. Calculer $f'(x), f''(x)$ et $f'''(x)$. Conjecturer une expression pour la dérivée $n$-ième $f^{(n)}(x)$ et la démontrer par récurrence.
+    \item \textbf{Équation Différentielle Fonctionnelle :} Déterminer toutes les fonctions $f$ dérivables sur $\mathbb{R}$ telles que, pour tout $x \in \mathbb{R}$, on ait $f'(x) = f(-x)$.
+    \item \textbf{Polynôme et Dérivées :} Soit $P$ un polynôme de degré $n$. Démontrer que si $P(x) \ge 0$ pour tout réel $x$, alors la somme de $P$ et de toutes ses dérivées est également positive : $P(x) + P'(x) + P''(x) + \dots + P^{(n)}(x) \ge 0$.
+    \item \textbf{Suite de Racines :} On considère la fonction $f_n(x) = x^n + x - 1$ pour $n \ge 1$. Montrer que l'équation $f_n(x) = 0$ admet une unique solution positive notée $\alpha_n$. Montrer que la suite $(\alpha_n)$ est croissante et déterminer sa limite.
+    \item \textbf{Équation Implicite (Folium de Descartes) :} La courbe d'équation $x^3 + y^3 - 3xy = 0$ admet une tangente en chaque point. En dérivant cette relation par rapport à $x$ (en considérant localement $y$ comme une fonction de $x$), déterminer l'équation de la tangente au point $A(\frac{3}{2} ; \frac{3}{2})$.
+    \item \textbf{Théorème de Rolle caché :} Soit $f$ une fonction dérivable sur $[0 ; 1]$ telle que $f(0) = 0$ et $f(1) = 1$. Démontrer qu'il existe un réel $c \in ]0 ; 1[$ tel que $f'(c) = 2c$.
+    \item \textbf{Fonction $x^x$ :} On étudie la fonction $f(x) = x^x$ sur $]0 ; +\infty[$. En utilisant l'écriture exponentielle, calculer $f'(x)$. Démontrer que la courbe de $f$ admet un unique point d'inflexion.
+    \item \textbf{Équation Fonctionnelle :} Soit $f$ une fonction dérivable sur $\mathbb{R}$ vérifiant pour tous réels $x, y$ : $f(x+y) = f(x)f(y)$. On suppose de plus que $f'(0) = 1$. Montrer que $f(x) = e^x$.
+    \item \textbf{Les Polynômes d'Hermite :} Soit $H_n(x) = (-1)^n e^{x^2} \frac{d^n}{dx^n} \left( e^{-x^2} \right)$. Démontrer que $H_n$ est un polynôme de degré $n$.
+    \item \textbf{Inégalité de Taylor (Dérivées successives) :} Soit $f(x) = \sin(x) - x + \frac{x^3}{6}$. En étudiant successivement les signes de $f'''(x)$, $f''(x)$, $f'(x)$ et $f(x)$, démontrer que pour tout $x \ge 0$, $\sin(x) \le x - \frac{x^3}{6} + \frac{x^5}{120}$.
+\end{enumerate}
+
+\end{document}

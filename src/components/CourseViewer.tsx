@@ -127,12 +127,14 @@ function renderBlock(block: CourseBlock, idx: number) {
 /** Transforme **gras** et lignes \n en JSX */
 function renderText(text: string) {
   return text.split('\n').map((line, li) => {
-    const parts = line.split(/(\*\*[^*]+\*\*)/g)
+    const parts = line.split(/(\$[^$]+\$|\*\*[^*]+\*\*)/g)
     return (
       <span key={li}>
         {parts.map((part, pi) =>
           part.startsWith('**') && part.endsWith('**')
             ? <strong key={pi}>{part.slice(2, -2)}</strong>
+            : part.startsWith('$') && part.endsWith('$')
+              ? <InlineMath key={pi} math={part.slice(1, -1)} />
             : <span key={pi}>{part}</span>
         )}
         {li < text.split('\n').length - 1 && <br />}

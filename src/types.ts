@@ -70,6 +70,8 @@ export interface Chapter {
   chronoDuration: number // minutes
   /** Cours inline structuré (optionnel — si absent, affiche la resource card) */
   courseContent?: CourseSection[]
+  /** Exercices inline structurés (optionnel) */
+  exercicesContent?: CourseSection[]
 }
 
 export interface Pathway {
