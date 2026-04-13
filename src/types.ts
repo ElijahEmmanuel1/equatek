@@ -1,5 +1,7 @@
 export type PageId = 'home' | 'pathways' | 'chapter' | 'quiz' | 'chrono' | 'progress'
 
+export type SubjectId = 'maths' | 'physique' | 'chimie'
+
 export type ResourceKey = 'cours' | 'exercices' | 'quiz' | 'bac' | 'equatek'
 
 export interface QuizQuestion {
@@ -25,14 +27,49 @@ export interface ChapterResources {
   equatek: ResourceItem[]
 }
 
+// ─── Cours inline ──────────────────────────────────────────
+/** Un bloc de contenu dans une section de cours */
+export type CourseBlockType =
+  | 'text'        // paragraphe texte (markdown simple)
+  | 'formula'     // formule KaTeX display
+  | 'table'       // tableau (headers + rows)
+  | 'method'      // étapes numérotées (type Bac)
+  | 'example'     // exemple résolu
+  | 'warning'     // point clé / piège fréquent
+
+export interface CourseBlock {
+  type: CourseBlockType
+  /** Texte principal (markdown ou LaTeX selon le type) */
+  content: string
+  /** Pour type='table' : en-têtes des colonnes */
+  headers?: string[]
+  /** Pour type='table' : lignes du tableau (chaque ligne = tableau de cellules) */
+  rows?: string[][]
+  /** Pour type='method' | 'example' : liste d'étapes */
+  steps?: string[]
+  /** Titre optionnel du bloc */
+  title?: string
+}
+
+export interface CourseSection {
+  id: string
+  title: string
+  icon: string
+  blocks: CourseBlock[]
+}
+
+// ─── Chapitre ──────────────────────────────────────────────
 export interface Chapter {
   id: string
   title: string
   period: string
   goal: string
+  subjectId?: SubjectId
   resources: ChapterResources
   quizQuestions: QuizQuestion[]
   chronoDuration: number // minutes
+  /** Cours inline structuré (optionnel — si absent, affiche la resource card) */
+  courseContent?: CourseSection[]
 }
 
 export interface Pathway {

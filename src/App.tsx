@@ -4,7 +4,7 @@ import { chapters, pathways } from './data'
 import { useProgress } from './useProgress'
 import { ChapterCard } from './components/ChapterCard'
 import { ChapterPage } from './components/ChapterPage'
-import type { Pathway } from './types'
+import type { Pathway, SubjectId } from './types'
 
 type Page = 'home' | 'chapter'
 
@@ -13,13 +13,30 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>
 }
 
-function parseHash(): { page: Page; chapterId: string | null } {
+const SUBJECTS: { id: SubjectId; label: string; emoji: string; available: boolean }[] = [
+  { id: 'maths',    label: 'Maths',    emoji: '∑',  available: true  },
+  { id: 'physique', label: 'Physique', emoji: '⚛️', available: false },
+  { id: 'chimie',   label: 'Chimie',   emoji: '🧪', available: false },
+]
+
+function parseHash(): { page: Page; chapterId: string | null; subject: SubjectId } {
   const hash = window.location.hash.slice(1)
+  // Format: /maths/chapter/chap1  or /maths
+  const m = hash.match(/^\/(maths|physique|chimie)(?:\/chapter\/(.+))?$/)
+  if (m) {
+    const subject = m[1] as SubjectId
+    const chapterId = m[2] ?? null
+    if (chapterId && chapters.find((c) => c.id === chapterId)) {
+      return { page: 'chapter', chapterId, subject }
+    }
+    return { page: 'home', chapterId: null, subject }
+  }
+  // Legacy hash compat: /chapter/chap1
   if (hash.startsWith('/chapter/')) {
     const id = hash.slice('/chapter/'.length)
-    if (chapters.find((c) => c.id === id)) return { page: 'chapter', chapterId: id }
+    if (chapters.find((c) => c.id === id)) return { page: 'chapter', chapterId: id, subject: 'maths' }
   }
-  return { page: 'home', chapterId: null }
+  return { page: 'home', chapterId: null, subject: 'maths' }
 }
 
 export default function App() {
@@ -27,6 +44,7 @@ export default function App() {
   const [page, setPage] = useState<Page>(initial.page)
   const [activeChapterId, setActiveChapterId] = useState<string | null>(initial.chapterId)
   const [activePathId, setActivePathId] = useState<string>(pathways[0].id)
+  const [activeSubject, setActiveSubject] = useState<SubjectId>(initial.subject)
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [isInstalled, setIsInstalled] = useState(false)
 
@@ -37,8 +55,8 @@ export default function App() {
 
   useEffect(() => {
     const onHash = () => {
-      const { page: p, chapterId } = parseHash()
-      setPage(p); setActiveChapterId(chapterId)
+      const { page: p, chapterId, subject } = parseHash()
+      setPage(p); setActiveChapterId(chapterId); setActiveSubject(subject)
       if (p === 'home') window.scrollTo({ top: 0 })
     }
     window.addEventListener('hashchange', onHash)
@@ -52,22 +70,33 @@ export default function App() {
     return () => window.removeEventListener('beforeinstallprompt', handler)
   }, [])
 
+  // Filtrer les chapitres selon la matière active
+  const visibleChapters = chapters.filter((c) => (c.subjectId ?? 'maths') === activeSubject)
+
   const activePath: Pathway = pathways.find((p) => p.id === activePathId) ?? pathways[0]
   const activeChapter = chapters.find((c) => c.id === activeChapterId) ?? null
-  const totalCompletion = chapters.length
-    ? Math.round(chapters.reduce((sum, c) => sum + getChapterCompletion(c.id), 0) / chapters.length)
+  const totalCompletion = visibleChapters.length
+    ? Math.round(visibleChapters.reduce((sum, c) => sum + getChapterCompletion(c.id), 0) / visibleChapters.length)
     : 0
 
   const openChapter = (id: string) => {
     setActiveChapterId(id); setPage('chapter')
-    window.location.hash = `/chapter/${id}`
+    window.location.hash = `/${activeSubject}/chapter/${id}`
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const goHome = () => {
     setPage('home')
-    window.location.hash = '/'
+    window.location.hash = `/${activeSubject}`
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const switchSubject = (id: SubjectId) => {
+    if (!SUBJECTS.find((s) => s.id === id)?.available) return
+    setActiveSubject(id)
+    setPage('home')
+    window.location.hash = `/${id}`
+    window.scrollTo({ top: 0 })
   }
 
   const goToPathways = () => {
@@ -85,9 +114,9 @@ export default function App() {
     setInstallPrompt(null)
   }
 
-  const validatedCount   = chapters.filter((c) => getChapterCompletion(c.id) === 100).length
-  const quizDoneCount    = chapters.filter((c) => progress[c.id]?.quizCompleted).length
-  const chronoDoneCount  = chapters.filter((c) => progress[c.id]?.chronoCompleted).length
+  const validatedCount   = visibleChapters.filter((c) => getChapterCompletion(c.id) === 100).length
+  const quizDoneCount    = visibleChapters.filter((c) => progress[c.id]?.quizCompleted).length
+  const chronoDoneCount  = visibleChapters.filter((c) => progress[c.id]?.chronoCompleted).length
   const isFirstVisit     = totalCompletion === 0
 
   return (
@@ -114,22 +143,35 @@ export default function App() {
         </div>
       )}
 
-      {/* ── Header compact sticky ─────────────────────────── */}
+      {/* ── Header ─────────────────────────────────────────── */}
       <header className="app-header">
         <p className="brand" onClick={goHome} role="button" tabIndex={0}
           onKeyDown={(e) => e.key === 'Enter' && goHome()}>
           Equatek
         </p>
-        <nav className="app-header-nav" aria-label="Navigation principale">
-          <button type="button"
-            className={`nav-pill ${page === 'home' ? 'active' : ''}`}
-            onClick={goHome}>
-            Chapitres
-          </button>
-          <button type="button" className="nav-pill" onClick={goToPathways}>
-            Parcours
-          </button>
+
+        {/* Onglets matière */}
+        <nav className="subject-tabs" aria-label="Matières">
+          {SUBJECTS.map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              className={[
+                'subject-tab',
+                s.id === activeSubject ? 'subject-tab--active' : '',
+                !s.available ? 'subject-tab--locked' : '',
+              ].join(' ')}
+              onClick={() => switchSubject(s.id)}
+              title={!s.available ? 'Bientôt disponible' : s.label}
+              disabled={!s.available}
+            >
+              <span className="subject-tab-emoji">{s.emoji}</span>
+              <span className="subject-tab-label">{s.label}</span>
+              {!s.available && <span className="subject-tab-soon">Bientôt</span>}
+            </button>
+          ))}
         </nav>
+
         <div className="header-progress">
           <div className="header-progress-track"
             role="progressbar" aria-valuenow={totalCompletion} aria-valuemin={0} aria-valuemax={100}>
@@ -150,7 +192,7 @@ export default function App() {
             {isFirstVisit ? (
               <div className="stats-strip stats-strip--empty">
                 <div className="stat-card">
-                  <span className="stat-val">{chapters.length}</span>
+                  <span className="stat-val">{visibleChapters.length}</span>
                   <span className="stat-lbl">chapitres disponibles</span>
                 </div>
                 <div className="stat-card">
@@ -180,14 +222,14 @@ export default function App() {
             )}
 
             {/* CTA première visite */}
-            {isFirstVisit && (
+            {isFirstVisit && visibleChapters.length > 0 && (
               <div className="home-cta">
                 <p className="eyebrow">Terminale — Mathématiques</p>
                 <h2>Un chapitre à la fois, des points gagnés au Bac.</h2>
-                <p>Quiz interactif, mode chrono et sujets d'entraînement pour chaque chapitre.</p>
+                <p>Cours interactif, quiz, mode chrono et sujets d'entraînement pour chaque chapitre.</p>
                 <div className="home-cta-actions">
                   <button className="button button-strong" type="button"
-                    onClick={() => openChapter(chapters[0].id)}>
+                    onClick={() => openChapter(visibleChapters[0].id)}>
                     Commencer le Chap. 1 →
                   </button>
                   <button className="button button-soft" type="button" onClick={goToPathways}>
@@ -197,24 +239,40 @@ export default function App() {
               </div>
             )}
 
+            {/* Message matière non disponible */}
+            {!SUBJECTS.find((s) => s.id === activeSubject)?.available && (
+              <div className="subject-unavailable">
+                <span className="subject-unavailable-emoji">🚧</span>
+                <h3>Bientôt disponible</h3>
+                <p>Les chapitres de {SUBJECTS.find((s) => s.id === activeSubject)?.label} arrivent prochainement.</p>
+                <button className="button button-soft" type="button" onClick={() => switchSubject('maths')}>
+                  Revenir aux Maths
+                </button>
+              </div>
+            )}
+
             {/* Liste des chapitres */}
-            <div>
-              <div className="home-section-head">
-                <p className="eyebrow">Chapitres de maths</p>
-                <h2>Choisis ton chapitre</h2>
+            {visibleChapters.length > 0 && (
+              <div>
+                <div className="home-section-head">
+                  <p className="eyebrow">
+                    {SUBJECTS.find((s) => s.id === activeSubject)?.label ?? 'Maths'} — Terminale
+                  </p>
+                  <h2>Choisis ton chapitre</h2>
+                </div>
+                <div className="chapter-list">
+                  {visibleChapters.map((chapter) => (
+                    <ChapterCard
+                      key={chapter.id}
+                      chapter={chapter}
+                      completion={getChapterCompletion(chapter.id)}
+                      progress={progress[chapter.id]}
+                      onOpen={() => openChapter(chapter.id)}
+                    />
+                  ))}
+                </div>
               </div>
-              <div className="chapter-list">
-                {chapters.map((chapter) => (
-                  <ChapterCard
-                    key={chapter.id}
-                    chapter={chapter}
-                    completion={getChapterCompletion(chapter.id)}
-                    progress={progress[chapter.id]}
-                    onOpen={() => openChapter(chapter.id)}
-                  />
-                ))}
-              </div>
-            </div>
+            )}
 
             {/* Parcours */}
             <div id="pathways">
@@ -298,8 +356,9 @@ export default function App() {
         )}
       </main>
 
-      {/* ── Bottom nav ───────────────────────────────────────── */}
+      {/* ── Bottom nav ──────────────────────────────────────── */}
       <nav className="bottom-nav" aria-label="Navigation">
+        {/* Chapitres */}
         <button type="button"
           className={`bnav-btn ${page === 'home' ? 'active' : ''}`}
           onClick={goHome}>
@@ -309,7 +368,10 @@ export default function App() {
           </svg>
           <span>Chapitres</span>
         </button>
+
         <div className="bnav-sep" />
+
+        {/* Parcours */}
         <button type="button" className="bnav-btn" onClick={goToPathways}>
           <svg className="bnav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
@@ -318,7 +380,10 @@ export default function App() {
           </svg>
           <span>Parcours</span>
         </button>
+
         <div className="bnav-sep" />
+
+        {/* Progression */}
         <div className="bnav-progress">
           <div className="bnav-progress-track">
             <div className="bnav-progress-fill" style={{ width: `${totalCompletion}%` }} />

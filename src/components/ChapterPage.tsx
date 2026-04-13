@@ -4,6 +4,7 @@ import type { ChapterProgress } from '../types'
 import { QuizView } from './QuizView'
 import { ChronoMode } from './ChronoMode'
 import { SubjectViewer } from './SubjectViewer'
+import { CourseViewer } from './CourseViewer'
 import { equatekSubjects } from '../subjects'
 
 interface ChapterPageProps {
@@ -18,7 +19,7 @@ interface ChapterPageProps {
   onBack: () => void
 }
 
-type SubPage = 'overview' | 'quiz' | 'chrono' | 'subject'
+type SubPage = 'overview' | 'cours' | 'quiz' | 'chrono' | 'subject'
 
 const RESOURCE_CONFIGS: { key: ResourceKey; label: string; icon: string; color: string }[] = [
   { key: 'cours',     label: 'Cours',          icon: '📖', color: '#7c9eff' },
@@ -28,10 +29,19 @@ const RESOURCE_CONFIGS: { key: ResourceKey; label: string; icon: string; color: 
   { key: 'equatek',   label: 'Sujets Equatek',  icon: '⚡', color: '#ff9f7a' },
 ]
 
-const SUBNAV_LABELS: Record<SubPage, string> = {
-  overview: '📚 Contenu',
+// Configs sans la carte Cours (utilisé quand un cours inline est disponible)
+const RESOURCE_CONFIGS_NO_COURS: { key: ResourceKey; label: string; icon: string; color: string }[] = [
+  { key: 'exercices', label: 'Exercices',      icon: '✏️', color: '#ffd190' },
+  { key: 'quiz',      label: 'Quiz',           icon: '🧠', color: '#c084fc' },
+  { key: 'bac',       label: 'Sujets Bac',     icon: '🎯', color: '#5cffb4' },
+  { key: 'equatek',   label: 'Sujets Equatek', icon: '⚡', color: '#ff9f7a' },
+]
+
+const SUBNAV_BASE: Record<SubPage, string> = {
+  cours:    '📖 Cours',
+  overview: '📚 Ressources',
   quiz:     '🧠 Quiz',
-  chrono:   '⏱️ Mode Chrono',
+  chrono:   '⏱️ Chrono',
   subject:  '📄 Sujets Equatek',
 }
 
@@ -46,10 +56,16 @@ export function ChapterPage({
   onChronoComplete,
   onBack,
 }: ChapterPageProps) {
-  const [subPage, setSubPage] = useState<SubPage>('overview')
+  const hasCours = Boolean(chapter.courseContent?.length)
+  const [subPage, setSubPage] = useState<SubPage>(hasCours ? 'cours' : 'overview')
   const [activeSubjectKey, setActiveSubjectKey] = useState<string>('A1')
   /* redoingQuiz contrôle l'affichage du quiz après un "Refaire" */
   const [redoingQuiz, setRedoingQuiz] = useState(false)
+
+  // Construire la liste des onglets selon si un cours inline existe
+  const subnavItems: SubPage[] = hasCours
+    ? ['cours', 'overview', 'quiz', 'chrono', 'subject']
+    : ['overview', 'quiz', 'chrono', 'subject']
 
   const openSubject = (key: string) => {
     setActiveSubjectKey(key)
@@ -95,7 +111,7 @@ export function ChapterPage({
 
       {/* Sous-navigation */}
       <div className="chapter-subnav" role="tablist">
-        {(Object.keys(SUBNAV_LABELS) as SubPage[]).map((p) => (
+        {subnavItems.map((p) => (
           <button
             key={p}
             type="button"
@@ -104,15 +120,26 @@ export function ChapterPage({
             onClick={() => setSubPage(p)}
             className={`chapter-subnav-btn ${subPage === p ? 'active' : ''}`}
           >
-            {SUBNAV_LABELS[p]}
+            {SUBNAV_BASE[p]}
           </button>
         ))}
       </div>
 
-      {/* ── Vue : Contenu / ressources ──────────────────────── */}
+      {/* ── Vue : Cours inline ──────────────────────────────── */}
+      {subPage === 'cours' && chapter.courseContent && (
+        <div className="subpage-wrap">
+          <CourseViewer
+            sections={chapter.courseContent}
+            isRead={progress?.coursRead}
+            onMarkRead={onMarkCoursRead}
+          />
+        </div>
+      )}
+
+      {/* ── Vue : Ressources ──────────────────────────────────── */}
       {subPage === 'overview' && (
         <div className="chapter-resources">
-          {RESOURCE_CONFIGS.map((rc) => {
+          {(hasCours ? RESOURCE_CONFIGS_NO_COURS : RESOURCE_CONFIGS).map((rc) => {
             const items = chapter.resources[rc.key]
             const isCours    = rc.key === 'cours'
             const isExo      = rc.key === 'exercices'

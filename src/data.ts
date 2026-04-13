@@ -1,10 +1,12 @@
 import type { Chapter, Pathway } from './types'
+import { chap1Cours } from './content/maths/chap1-cours'
 
 export const chapters: Chapter[] = [
   {
     id: 'chap1',
     title: 'Dérivation et convexité',
     period: 'Septembre',
+    subjectId: 'maths',
     goal: 'Maîtriser les variations, extremums, tangentes et courbes convexes.',
     resources: {
       cours: [
@@ -77,9 +79,11 @@ export const chapters: Chapter[] = [
       },
     ],
     chronoDuration: 25,
+    courseContent: chap1Cours,
   },
   {
     id: 'chap2',
+    subjectId: 'maths',
     title: 'Suites numériques',
     period: 'Octobre',
     goal: 'Analyser convergence, récurrence et modélisation par suites.',
@@ -145,6 +149,7 @@ export const chapters: Chapter[] = [
   },
   {
     id: 'chap3',
+    subjectId: 'maths',
     title: 'Probabilités conditionnelles',
     period: 'Novembre',
     goal: 'Raisonner proprement avec événements, indépendance et loi binomiale.',
