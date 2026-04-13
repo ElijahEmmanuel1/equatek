@@ -5,7 +5,7 @@ import { useProgress } from './useProgress'
 import { ChapterCard } from './components/ChapterCard'
 import { ChapterPage } from './components/ChapterPage'
 import { Onboarding } from './components/Onboarding'
-import { Calculator, Atom, FlaskConical, LayoutGrid, Route } from 'lucide-react'
+import { Calculator, Atom, FlaskConical, LayoutGrid, Route, ArrowRight, PlayCircle } from 'lucide-react'
 import type { Pathway, SubjectId } from './types'
 
 type Page = 'home' | 'chapter'
@@ -229,19 +229,33 @@ export default function App() {
               </div>
             )}
 
-            {/* CTA première visite */}
-            {isFirstVisit && visibleChapters.length > 0 && (
-              <div className="home-cta">
-                <p className="eyebrow">Terminale — Mathématiques</p>
-                <h2>Un chapitre à la fois, des points gagnés au Bac.</h2>
-                <p>Cours interactif, quiz, mode chrono et sujets d'entraînement pour chaque chapitre.</p>
-                <div className="home-cta-actions">
-                  <button className="button button-strong" type="button"
+            {/* Tableau de bord CTA */}
+            {visibleChapters.length > 0 && (
+              <div className="home-dashboard">
+                <div className="dashboard-header">
+                  <p className="eyebrow" style={{ justifyContent: 'flex-start' }}>
+                    👋 Bonjour !
+                  </p>
+                  <h2>
+                    {isFirstVisit ? 'Prêt à commencer ton entraînement ?' : 'Reprendre ton parcours'}
+                  </h2>
+                  <p className="dashboard-sub">
+                    {isFirstVisit 
+                      ? 'Démarre avec le premier chapitre de ton programme.' 
+                      : 'Poursuis là où tu t\'es arrêté pour gagner des points.'}
+                  </p>
+                </div>
+
+                <div className="dashboard-next-card">
+                  <div className="dashboard-next-info">
+                    <span className="next-badge">Chapitre en cours</span>
+                    <h3>{visibleChapters[0].title}</h3>
+                    <p>{visibleChapters[0].goal}</p>
+                  </div>
+                  <button className="button button-strong next-btn" type="button"
                     onClick={() => openChapter(visibleChapters[0].id)}>
-                    Commencer le Chap. 1 →
-                  </button>
-                  <button className="button button-soft" type="button" onClick={goToPathways}>
-                    Voir le parcours
+                    <PlayCircle size={18} strokeWidth={2.5} />
+                    {isFirstVisit ? 'Démarrer' : 'Continuer'}
                   </button>
                 </div>
               </div>
