@@ -219,6 +219,7 @@ export const chapters: Chapter[] = [
   /* ── CHAPITRE 4 ──────────────────────────────────────────── */
   {
     id: 'chap4',
+    subjectId: 'maths',
     title: 'Fonctions exp et ln',
     period: 'Janvier',
     goal: 'Maîtriser les propriétés, dérivées, primitives et limites de exp et ln.',
@@ -283,6 +284,7 @@ export const chapters: Chapter[] = [
   /* ── CHAPITRE 5 ──────────────────────────────────────────── */
   {
     id: 'chap5',
+    subjectId: 'maths',
     title: 'Calcul intégral',
     period: 'Février',
     goal: "Calculer des primitives et intégrales, appliquer l'intégration par parties.",
@@ -357,6 +359,7 @@ export const chapters: Chapter[] = [
   /* ── CHAPITRE 6 ──────────────────────────────────────────── */
   {
     id: 'chap6',
+    subjectId: 'maths',
     title: "Géométrie dans l'espace",
     period: 'Mars',
     goal: "Repérer droites et plans dans l'espace, calculer distances, angles et volumes.",
@@ -436,6 +439,7 @@ export const chapters: Chapter[] = [
   /* ── CHAPITRE 7 ──────────────────────────────────────────── */
   {
     id: 'chap7',
+    subjectId: 'maths',
     title: 'Variables aléatoires',
     period: 'Avril',
     goal: "Calculer espérance et variance, appliquer la loi binomiale et la loi normale.",
