@@ -535,8 +535,191 @@ export const subjectA2: EquatekSubject = {
   ],
 }
 
+export const subjectB1: EquatekSubject = {
+  id: 'B1',
+  label: 'Sujet Equatek B1',
+  title: 'Épreuve Blanche — Sujet 3',
+  year: 2026,
+  duration: '4 heures',
+  notice:
+    "La qualité de la rédaction, la clarté et la précision des raisonnements entreront pour une part importante dans l'appréciation des copies. L'usage de la calculatrice est autorisé. Le sujet est noté sur 20 points.",
+  exercises: [
+    {
+      id: 'ex1',
+      number: 1,
+      title: "Remboursement d'un Prêt Immobilier",
+      points: 7,
+      color: '#7c9eff',
+      intro:
+        "Un ménage contracte un prêt immobilier de $150\\,000$ euros à un taux mensuel fixe de $0{,}5\\,\\%$. Il verse chaque mois une mensualité constante de $m$ euros. On note $u_n$ le capital restant dû après $n$ mensualités, avec $u_0 = 150\\,000$.",
+      parts: [
+        {
+          title: 'Partie A : Modélisation par une suite',
+          questions: [
+            {
+              num: 1,
+              text: "Exprimer $u_{n+1}$ en fonction de $u_n$ et $m$.",
+              sub: "Le capital est majoré des intérêts du mois ($0{,}5\\,\\%$ du capital restant), puis diminué de la mensualité $m$.",
+            },
+            {
+              num: 2,
+              text: "On pose $v_n = u_n - L$ où $L$ est un réel. Déterminer $L$ de sorte que la suite $(v_n)$ soit géométrique. Identifier la raison et le premier terme.",
+            },
+            {
+              num: 3,
+              text: "Exprimer $u_n$ en fonction de $n$, $m$ et $L$.",
+            },
+            {
+              num: 4,
+              text: "Pour que le prêt soit remboursé en $240$ mois, on doit avoir $u_{240} = 0$. En déduire la valeur exacte de $m$, puis une valeur arrondie à l'euro près.",
+              highlight:
+                'm = \\dfrac{150\\,000 \\times 0{,}005}{1 - 1{,}005^{-240}}',
+            },
+          ],
+        },
+        {
+          title: 'Partie B : Analyse du remboursement',
+          questions: [
+            {
+              num: 5,
+              text: "Montrer que la suite $(u_n)$ est décroissante pour la valeur de $m$ trouvée. Interpréter économiquement.",
+            },
+            {
+              num: 6,
+              text: "Déterminer, à l'aide d'un algorithme, à partir de quel mois $n$ le capital restant dû passe en dessous de $75\\,000$ euros.",
+            },
+            {
+              num: 7,
+              text: "Si le taux mensuel était $0{,}8\\,\\%$ au lieu de $0{,}5\\,\\%$, de combien augmenterait la mensualité (pour 240 mois) ? Commenter l'impact du taux d'intérêt.",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'ex2',
+      number: 2,
+      title: 'Raisonnement par Récurrence',
+      points: 5,
+      color: '#c084fc',
+      parts: [
+        {
+          title: 'Partie A : Formule de la somme des carrés',
+          intro: "On cherche à démontrer que pour tout entier naturel $n \\geq 1$ :",
+          questions: [
+            {
+              num: 1,
+              text: "Vérifier l'initialisation pour $n = 1$.",
+              highlight:
+                '\\forall\\, n \\geq 1,\\quad \\sum_{k=1}^{n} k^2 = \\dfrac{n(n+1)(2n+1)}{6}',
+            },
+            {
+              num: 2,
+              text: "Supposons la propriété vraie au rang $n$. Montrer qu'elle est vraie au rang $n+1$ en calculant $\\displaystyle\\sum_{k=1}^{n+1} k^2$.",
+            },
+            {
+              num: 3,
+              text: "Conclure par récurrence, puis calculer la valeur exacte de $1^2 + 2^2 + \\dots + 50^2$.",
+            },
+          ],
+        },
+        {
+          title: 'Partie B : Majoration exponentielle',
+          questions: [
+            {
+              num: 4,
+              text: "Démontrer par récurrence que pour tout entier $n \\geq 4$ : $n^2 \\leq 2^n$.",
+            },
+            {
+              num: 5,
+              text: "En déduire que la suite $\\left(\\dfrac{n^2}{2^n}\\right)_{n \\geq 4}$ est bornée. Quel est son comportement lorsque $n \\to +\\infty$ ?",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'ex3',
+      number: 3,
+      title: 'Suite Définie par Récurrence',
+      points: 5,
+      color: '#ffd190',
+      intro:
+        "On considère la suite $(u_n)$ définie par $u_0 = 3$ et, pour tout entier $n \\geq 0$ :",
+      parts: [
+        {
+          title: 'Partie A : Étude qualitative',
+          questions: [
+            {
+              num: 1,
+              text: "Calculer $u_1$, $u_2$ et $u_3$ en valeur exacte.",
+              highlight: 'u_{n+1} = \\sqrt{u_n + 6}',
+            },
+            {
+              num: 2,
+              text: "Démontrer par récurrence que pour tout $n \\in \\mathbb{N}$ : $2 \\leq u_n \\leq 3$.",
+              sub: "On pourra étudier la fonction $f(x) = \\sqrt{x+6}$ sur $[2\\,;\\,3]$ et vérifier que $f([2,3]) \\subset [2,3]$.",
+            },
+            {
+              num: 3,
+              text: "Montrer que la suite $(u_n)$ est décroissante en étudiant le signe de $u_{n+1} - u_n$.",
+            },
+          ],
+        },
+        {
+          title: 'Partie B : Convergence',
+          questions: [
+            {
+              num: 4,
+              text: "En déduire que la suite $(u_n)$ converge. On note $L$ sa limite.",
+            },
+            {
+              num: 5,
+              text: "Déterminer $L$ en passant à la limite dans la relation de récurrence. (Résoudre $L = \\sqrt{L+6}$.)",
+            },
+            {
+              num: 6,
+              text: "Écrire un algorithme en pseudo-code qui calcule et affiche les valeurs de $u_n$ jusqu'à ce que $|u_{n+1} - u_n| < 10^{-4}$.",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'ex4',
+      number: 4,
+      title: 'Suites Classiques et Application',
+      points: 3,
+      color: '#5cffb4',
+      parts: [
+        {
+          questions: [
+            {
+              num: 1,
+              text: "Une suite arithmétique vérifie $u_3 = 11$ et $u_8 = 26$. Calculer la raison $r$ et le premier terme $u_0$.",
+            },
+            {
+              num: 2,
+              text: "Calculer la somme $S = u_0 + u_1 + \\dots + u_{19}$ des $20$ premiers termes.",
+            },
+            {
+              num: 3,
+              text: "Une suite géométrique vérifie $v_0 = 5$ et $v_3 = 40$. Déterminer la raison $q$ et l'expression de $v_n$ pour $n \\geq 0$.",
+            },
+            {
+              num: 4,
+              text: "Un capital initial de $5\\,000$ euros est placé à intérêts composés au taux annuel de $3\\,\\%$. Au bout de combien d'années $n$ ce capital dépasse-t-il $8\\,000$ euros ? (Utiliser la calculatrice.)",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}
+
 export const equatekSubjects: Record<string, EquatekSubject> = {
   A1: subjectA1,
   A2: subjectA2,
+  B1: subjectB1,
 }
 
